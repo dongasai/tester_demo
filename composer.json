@@ -1,0 +1,25 @@
+{
+    "name": "dongsai/tester_demo",
+    "description": "对于 tester 的演示",
+    "type": "library",
+    "authors": [
+        {
+            "name": "dongasai",
+            "email": "1514582970@qq.com"
+        }
+    ],
+    "scripts": {
+        "tester": [
+            "vendor/bin/tester -C --colors 1 --setup tester/setup.php tester"
+        ]
+    },
+    "require": {
+        "nette/tester": "^2.0",
+        "symfony/var-dumper": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ter\\": "tester"
+        }
+    }
+}
