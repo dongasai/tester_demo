@@ -13,7 +13,7 @@ class Assert
 {
 
     /**
-     * 大于判断
+     * 大于判断 $actual >  $expected
      * @param type $expected
      * @param type $actual
      * @param type $description

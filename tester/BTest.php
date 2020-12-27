@@ -3,7 +3,7 @@ namespace ter;
 
 include_once dirname(__DIR__) .'/vendor/autoload.php';
 
-use Tester\Assert;
+use Tester\Assert as AssertEr;
 
 /**
  * Description of BTest
@@ -48,7 +48,7 @@ class BTest extends \Tester\TestCase
     {
         $actual= 0;
         sleep(3);
-        Assert::equal(0, $actual);
+        AssertEr::equal(0, $actual);
     }
     
     /**
@@ -58,7 +58,7 @@ class BTest extends \Tester\TestCase
     {
         $actual= 0;
         sleep(3);
-        Assert::equal(0, $actual);
+        AssertEr::equal(0, $actual);
     }
     
     /**
@@ -68,7 +68,7 @@ class BTest extends \Tester\TestCase
     {
         $actual= 0;
         sleep(3);
-        Assert::equal(0, $actual);
+        AssertEr::equal(0, $actual);
     }
     
     /**
@@ -78,7 +78,7 @@ class BTest extends \Tester\TestCase
     {
         $actual= 0;
         sleep(3);
-        Assert::equal(0, $actual);
+        AssertEr::equal(0, $actual);
     }
     
     /**
@@ -88,7 +88,7 @@ class BTest extends \Tester\TestCase
     {
         $actual= 0;
         sleep(3);
-        Assert::equal(0, $actual);
+        AssertEr::equal(0, $actual);
     }
     
     /**
@@ -98,12 +98,12 @@ class BTest extends \Tester\TestCase
     {
         $actual= time();
         sleep(3);
-        Assert::equal(time(), $actual);
+        Assert::gt(time(), $actual);
         sleep(9);
-        Assert::equal(time(), $actual);
+        AssertEr::equal(time(), $actual);
     }
     
 }
 
 /** @testCase */
-(new ATest)->run();
+(new BTest)->run();

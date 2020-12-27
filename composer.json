@@ -15,7 +15,11 @@
     },
     "require": {
         "nette/tester": "^2.0",
-        "symfony/var-dumper": "^3.4"
+        "symfony/var-dumper": "^3.4",
+        "jenner/simple_fork": "^1.2",
+        "phpunit/phpunit": "^9.5",
+        "symfony/console": "^5.2",
+        "adhocore/cli": "^0.8.4"
     },
     "autoload": {
         "psr-4": {

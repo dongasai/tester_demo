@@ -96,7 +96,7 @@ class ATest extends \Tester\TestCase
     public function testTime3()
     {       
         echo 10;
-        Assert::gt(1000, time());
+        AssertEr::equal(1000, time());
     }
     
 }
