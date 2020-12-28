@@ -19,7 +19,8 @@
         "jenner/simple_fork": "^1.2",
         "phpunit/phpunit": "^9.5",
         "symfony/console": "^5.2",
-        "adhocore/cli": "^0.8.4"
+        "adhocore/cli": "^0.8.4",
+        "phpunit/php-code-coverage": "^9.2"
     },
     "autoload": {
         "psr-4": {
