@@ -13,4 +13,4 @@ services:
     volumes: 
       - .:/var/www/html
     ports:
-      - 80
+      - 32768:80
