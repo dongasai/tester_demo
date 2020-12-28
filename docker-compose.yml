@@ -4,7 +4,7 @@ networks:
     external:
       name: ggggg
 services:
-  php56:
+  php:
     build: .
     image: tester:70
     privileged: false
