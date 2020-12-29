@@ -23,7 +23,7 @@ class Command extends \Ahc\Cli\Input\Command
                 ->option('--bootstrap', '引导启动文件');
         $this->argument('[file]', "要运行的测试文件或文件夹");
         $this->usageExample();
-        $this->stopOption();
+        $this->testExecutionOptions();
         $this->coverageOption();
         $this->tool();
         $this->check();
@@ -82,12 +82,28 @@ EOT;
 
         $this->usage($usage);
     }
+    
+    /**
+     * 测试选择器相关
+     */
+    public function testSelectionOptions(){
+        $this->option('--filter', '运行测试时使用的筛选器');
+        $this->option('--testsuite', '运行测试套件时使用的筛选器');
+        $this->option('--group', '只运行来自指定组的测试。使用配置文件进行组配置');
+        $this->option('--exclude-group', '排除指定组的测试');
+        $this->option('--list-groups','列出可用的测试组。');
+        $this->option('--list-suites','列出可用的测试套件');
+        $this->option('--test-suffix','仅在指定的文件中搜索test后缀(es)。默认值:Test.php .phpt');
+    }
+
 
     /**
-     * 处理控制停止的相关参数
+     * 测试扩展选项
+     * 
      */
-    private function stopOption()
+    private function testExecutionOptions()
     {
+        $this->option('--dont-report-useless-tests','不要报告不测试任何东西的测试。');
         $this->option('--stop-on-defect', '在第一次测试未通过的位置停止', 'boolval', false)
                 ->option('--stop-on-error', '在第一次出现错误的位置停止', 'boolval', false)
                 ->option('--stop-on-failure', '在第一次出现错误或断言失败的位置停止', 'boolval', false)
