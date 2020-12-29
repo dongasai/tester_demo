@@ -1,6 +1,6 @@
 #
 
-FROM php:7.3-cli
+FROM php:7.3-apache
 
 
 ENV REFRESH_DATE 2020年12月28日20:26:44
@@ -26,6 +26,8 @@ RUN wget https://mirrors.aliyun.com/composer/composer.phar \
 RUN docker-php-ext-install pcntl sysvshm sysvmsg sysvsem;docker-php-ext-enable pcntl sysvshm sysvmsg sysvsem;
 RUN pecl install pcov xdebug;docker-php-ext-enable pcov xdebug
 
+RUN pecl install pcov \
+    && docker-php-ext-enable pcov
 
 COPY 1.ini /usr/local/etc/php/
 
