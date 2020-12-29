@@ -109,8 +109,14 @@ EOT;
      */
     private function coverageOption()
     {
-        $this->option('--path-coverage', "执行代码分析的目录")
-                ->option('--coverage-filter', "在代码覆盖测试中包含文件夹");
+        $this->option('--path-coverage', "执行代码覆盖率分析的目录")
+                ->option('--coverage-filter', "在代码覆盖率分析中包含文件夹")
+                ->option('--coverage-clover','执行代码覆盖率分析clover格式输出结果的位置')
+                ->option('--coverage-crap4j','执行代码覆盖率分析 crap4j 格式输出结果的位置')
+                ->option('--coverage-html','执行代码覆盖率分析 html 格式输出结果的位置')
+                ->option('--coverage-php','执行代码覆盖率分析 php 格式输出结果的位置')
+                ->option('--coverage-text','执行代码覆盖率分析 text 格式输出结果的位置')
+                ->option('--coverage-xml','执行代码覆盖率分析 xml 格式输出结果的位置');
     }
 
     /**

@@ -3,7 +3,16 @@
 FROM php:7.3-apache
 
 
-ENV REFRESH_DATE 2020年12月28日20:26:44
+ENV REFRESH_DATE 2020年12月29日09:13:27
+
+RUN echo "deb http://mirrors.163.com/debian/ buster main non-free contrib" > /etc/apt/sources.list && \
+    echo "deb http://mirrors.163.com/debian/ buster-updates main non-free contrib " >> /etc/apt/sources.list  && \
+    echo "deb http://mirrors.163.com/debian/ buster-backports main non-free contrib " >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.163.com/debian/ buster main non-free contrib " >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.163.com/debian/ buster-updates main non-free contrib " >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.163.com/debian/ buster-backports main non-free contrib " >> /etc/apt/sources.list  && \
+    echo "deb http://mirrors.163.com/debian-security/ buster/updates main non-free contrib  " >> /etc/apt/sources.list  && \
+    echo "deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free contrib " >> /etc/apt/sources.list
 
 RUN apt-get update
 RUN apt-get install -y vim wget zip zlib1g-dev
@@ -25,9 +34,6 @@ RUN wget https://mirrors.aliyun.com/composer/composer.phar \
 # 安装多进程所需的几个扩展 进程控制,内存共享,消息队列,互斥锁
 RUN docker-php-ext-install pcntl sysvshm sysvmsg sysvsem;docker-php-ext-enable pcntl sysvshm sysvmsg sysvsem;
 RUN pecl install pcov xdebug;docker-php-ext-enable pcov xdebug
-
-RUN pecl install pcov \
-    && docker-php-ext-enable pcov
 
 COPY 1.ini /usr/local/etc/php/
 

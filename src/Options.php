@@ -15,6 +15,7 @@ class Options
         'bootstrap'      => 'file',
         'checkVersion'   => 'bool',
         'stopOnDefect'   => 'bool',
+        'stopOnFailure'  => 'bool',
         'stopOnError'    => 'bool',
         'stopOnWarning'  => 'bool',
         'stopOnRisky'    => 'bool',
