@@ -11,6 +11,7 @@ class Options
 {
 
     private static $type = [
+        'tmp'            => 'dir',
         'configuration'  => 'file',
         'bootstrap'      => 'file',
         'checkVersion'   => 'bool',
@@ -25,7 +26,13 @@ class Options
         'debug'          => 'bool',
         'repeat'         => 'int',
         'pathCoverage'   => 'dir',
-        'coverageFilter' => 'dir'
+        'coverageFilter' => 'dir',
+        'coverageClover' => 'dir',
+        'coverageCrap4j' => 'dir',
+        'coverageHtml'   => 'dir',
+        'coveragePhp'    => 'dir',
+        'coverageText'   => 'dir',
+        'coverageXml'    => 'dir'
     ];
     public static $file; // 要测试的文件
     public static $dir; // 要测试的文件夹
@@ -33,6 +40,7 @@ class Options
     public static $configuration; // 配置文件夹
     public static $checkVersion; // 是否检查升级
     public static $stopOnDefect; //
+    public static $stopOnFailure;
     public static $stopOnError;
     public static $stopOnWarning;
     public static $stopOnRisky;
@@ -43,6 +51,13 @@ class Options
     public static $repeat;
     public static $pathCoverage;
     public static $coverageFilter;
+    public static $coverageClover; //覆盖率测试输出目录 Clover 格式
+    public static $coverageCrap4j; // 
+    public static $coverageHtml; // 
+    public static $coveragePhp; //
+    public static $coverageText; //
+    public static $coverageXml;
+    public static $tmp; // 临时文件目录
 
     public function __construct($value)
     {
@@ -96,9 +111,12 @@ class Options
         if (empty(self::$file) && empty(self::$dir)) {
             self::$dir = START_DIR;
         }
-        $configFile = START_DIR . 'mtf.php';
+        $configFile = START_DIR . DIRECTORY_SEPARATOR . 'mtf.php';
         if (empty(self::$configuration) && is_file($configFile)) {
             self::$configuration = $configFile;
+        }
+        if (empty(self::$tmp)) {
+            self::$tmp = START_DIR . DIRECTORY_SEPARATOR . '.tmp';
         }
     }
 

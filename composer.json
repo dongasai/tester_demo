@@ -12,6 +12,9 @@
         "a": [
             "./mtf --debug --verbose --path-coverage examples examples"
         ],
+        "b": [
+            "vendor/bin/phpunit "
+        ],
         "tester": [
             "vendor/bin/tester -C --colors 1 --setup tester/setup.php tester"
         ]
@@ -44,5 +47,7 @@
     "support": {
         "email": "1514582970@qq.com",
         "gitee": "gitee.com/dongasai/mtf"
-    }
+    },
+    "minimum-stability":"dev",
+    "prefer-stable": true
 }

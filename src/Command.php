@@ -20,6 +20,7 @@ class Command extends \Ahc\Cli\Input\Command
         $version = '0.0.1';
         $this->version($version)
                 ->option('-c --configuration', "使用的配置文件")
+                ->option('--tmp', '临时文件目录')
                 ->option('--bootstrap', '引导启动文件');
         $this->argument('[file]', "要运行的测试文件或文件夹");
         $this->usageExample();
