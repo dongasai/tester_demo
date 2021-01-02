@@ -21,6 +21,10 @@ class Tester extends Action
         if (\mtf\Options::$pathCoverage) {
             $this->callAction(codeCoverage::class, [\mtf\Options::$pathCoverage]);
         }
+        
+        if(\mtf\Options::$dir){
+            
+        }
     }
 
     private function callAction($className, $param_arr)

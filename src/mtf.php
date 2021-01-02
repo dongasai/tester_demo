@@ -5,9 +5,11 @@
 include_once 'function.php';
 
 define('START_DIR', $_SERVER['PWD']);
+define('START_TIME', time());
+
 
 foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php',
-__DIR__ . '/vendor/autoload.php') as $file) {
+ __DIR__ . '/vendor/autoload.php') as $file) {
     if (file_exists($file)) {
         define('COMPOSER_AUTOLOAD_FILE', $file);
         require_once $file;
