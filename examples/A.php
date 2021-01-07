@@ -5,7 +5,7 @@
  *
  * @author zy
  */
-class A
+class ATest extends TestCase
 {
     //put your code here
 }

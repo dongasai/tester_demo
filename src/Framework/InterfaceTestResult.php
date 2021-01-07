@@ -9,149 +9,60 @@ namespace mtf\Framework;
 interface InterfaceTestResult
 {
 
-/**
- * @deprecated Use the `TestHook` interfaces instead
- *
- * @codeCoverageIgnore
- *
- * Registers a TestListener.
- */
-public function addListener(TestListener $listener): void
-{
-$this->listeners[] = $listener;
-}
+    /**
+     * 注册一个钩子.
+     */
+    public function addListener(TestListener $listener);
 
-/**
- * @deprecated Use the `TestHook` interfaces instead
- *
- * @codeCoverageIgnore
- *
- * Unregisters a TestListener.
- */
-public function removeListener(TestListener $listener): void
-{
-foreach ($this->listeners as $key => $_listener) {
-if ($listener === $_listener) {
-unset($this->listeners[$key]);
-}
-}
-}
 
-/**
- * @deprecated Use the `TestHook` interfaces instead
- *
- * @codeCoverageIgnore
- *
- * Flushes all flushable TestListeners.
- */
-public function flushListeners(): void
-{
-foreach ($this->listeners as $listener) {
-if ($listener instanceof Printer) {
-$listener->flush();
-}
-}
-}
+    /**
+     *
+     * 取消注册一个钩子.
+     */
+    public function removeListener(TestListener $listener);
 
-/**
- * Adds an error to the list of errors.
- */
-public function addError(Test $test, Throwable $t, float $time): void
-{
-if ($t instanceof RiskyTestError) {
-$this->recordRisky($test, $t);
+    /**
+     *
+     * 清空所有已注册的钩子.
+     */
+    public function flushListeners();
 
-$notifyMethod = 'addRiskyTest';
+    /**
+     * 将错误添加到错误列表.
+     */
+    public function addError(Test $test, Throwable $t, float $time);
 
-if ($test instanceof TestCase) {
-$test->markAsRisky();
-}
+    /**
+     * 将警告添加到警告列表中.
+     * 传入的异常导致了警告.
+     */
+    public function addWarning(Test $test, Warning $e, float $time);
 
-if ($this->stopOnRisky || $this->stopOnDefect) {
-$this->stop();
-}
-} elseif ($t instanceof IncompleteTest) {
-$this->recordNotImplemented($test, $t);
+    /**
+     * 向失败列表中添加一个失败
+     * 异常传入导致失败
+     */
+    public function addFailure(Test $test, AssertionFailedError $e, float $time);
 
-$notifyMethod = 'addIncompleteTest';
+    /**
+     * 通知测试套件将开始.
+     */
+    public function startTestSuite(TestSuite $suite);
 
-if ($this->stopOnIncomplete) {
-$this->stop();
-}
-} elseif ($t instanceof SkippedTest) {
-$this->recordSkipped($test, $t);
+    /**
+     * 通知测试套件已经完成。
+     */
+    public function endTestSuite(TestSuite $suite);
 
-$notifyMethod = 'addSkippedTest';
+    /**
+     * 通知测试将要开始了。
+     */
+    public function startTest(Test $test);
 
-if ($this->stopOnSkipped) {
-$this->stop();
-}
-} else {
-$this->recordError($test, $t);
-
-$notifyMethod = 'addError';
-
-if ($this->stopOnError || $this->stopOnFailure) {
-$this->stop();
-}
-}
-
-// @see https://github.com/sebastianbergmann/phpunit/issues/1953
-if ($t instanceof Error) {
-$t = new ExceptionWrapper($t);
-}
-
-foreach ($this->listeners as $listener) {
-$listener->{$notifyMethod}($test, $t, $time);
-}
-
-$this->lastTestFailed = true;
-$this->time += $time;
-}
-
-/**
- * Adds a warning to the list of warnings.
- * The passed in exception caused the warning.
- */
-public function addWarning(Test $test, Warning $e, float $time): void
-{
-if ($this->stopOnWarning || $this->stopOnDefect) {
-$this->stop();
-}
-
-$this->recordWarning($test, $e);
-
-foreach ($this->listeners as $listener) {
-$listener->addWarning($test, $e, $time);
-}
-
-$this->time += $time;
-}
-
-/**
- * 向失败列表中添加一个失败
- * 异常传入导致失败
- */
-public function addFailure(Test $test, AssertionFailedError $e, float $time);
-
-/**
- * 通知测试套件将开始.
- */
-public function startTestSuite(TestSuite $suite);
-
-/**
- * 通知测试套件已经完成。
- */
-public function endTestSuite(TestSuite $suite);
-
-/**
- * 通知测试将要开始了。
- */
-public function startTest(Test $test);
-
-/**
- * 通知测试已完成。
- * @throws \mtf\Excetions\InvalidArgumentException
- */
-public function endTest(Test $test, float $time);
+    /**
+     * 通知测试已完成。
+     *
+     * @throws \mtf\Excetions\InvalidArgumentException
+     */
+    public function endTest(Test $test, float $time);
 }

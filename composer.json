@@ -1,53 +1,54 @@
 {
-    "name": "dongsai/tester_demo",
-    "description": "对于 tester 的演示",
-    "type": "library",
-    "authors": [
-        {
-            "name": "dongasai",
-            "email": "1514582970@qq.com"
-        }
+  "name": "dongsai/tester_demo",
+  "description": "对于 tester 的演示",
+  "type": "library",
+  "authors": [
+    {
+      "name": "dongasai",
+      "email": "1514582970@qq.com"
+    }
+  ],
+  "scripts": {
+    "a": [
+      "./mtf --debug --verbose --path-coverage examples examples"
     ],
-    "scripts": {
-        "a": [
-            "./mtf --debug --verbose --path-coverage examples examples"
-        ],
-        "b": [
-            "vendor/bin/phpunit "
-        ],
-        "tester": [
-            "vendor/bin/tester -C --colors 1 --setup tester/setup.php tester"
-        ]
-    },
-    "require": {
-        "php": "^5.6",
-        "ext-pcntl": "*",
-        "nette/tester": "^2.0",
-        "symfony/var-dumper": "^3.4",
-        "jenner/simple_fork": "^1.2",
-        "phpunit/phpunit": "^9.5",
-        "adhocore/cli": "^0.8.4",
-        "webmozart/assert": "^1.9",
-        "symfony/console": "^5.2",
-        "phpunit/php-code-coverage": "^9.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "ter\\": "tester",
-            "mtf\\": "src",
-            "examples\\": "examples"
-        }
-    },
-    "suggest": {
-        "ext-sysvshm": "共享内存",
-        "ext-sysvmsg": "消息队列",
-        "ext-sysvsem": "互斥锁",
-        "ext-pcov": "代码覆盖率检查"
-    },
-    "support": {
-        "email": "1514582970@qq.com",
-        "gitee": "gitee.com/dongasai/mtf"
-    },
-    "minimum-stability":"dev",
-    "prefer-stable": true
+    "b": [
+      "vendor/bin/phpunit "
+    ],
+    "tester": [
+      "vendor/bin/tester -C --colors 1 --setup tester/setup.php tester"
+    ]
+  },
+  "require": {
+    "php": "^7.0",
+    "ext-pcntl": "*",
+    "symfony/var-dumper": "^3.4",
+    "jenner/simple_fork": "^1.2",
+    "adhocore/cli": "^0.8.4",
+    "webmozart/assert": "^1.9",
+    "phpunit/php-code-coverage": "^9.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "nette/tester": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "ter\\": "tester",
+      "mtf\\": "src",
+      "examples\\": "examples"
+    }
+  },
+  "suggest": {
+    "ext-sysvshm": "共享内存",
+    "ext-sysvmsg": "消息队列",
+    "ext-sysvsem": "互斥锁",
+    "ext-pcov": "代码覆盖率检查"
+  },
+  "support": {
+    "email": "1514582970@qq.com",
+    "gitee": "gitee.com/dongasai/mtf"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
