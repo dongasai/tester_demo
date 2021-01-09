@@ -9,5 +9,13 @@ namespace mtf\Framework;
  */
 class Constraint
 {
+    /**
+     * @param $value
+     * @param $message
+     */
+    public function  evaluate($value, $message){
+
+    }
+
 
 }

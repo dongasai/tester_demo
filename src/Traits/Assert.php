@@ -21,6 +21,12 @@ trait Assert
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
      */
+    /**
+     * 断言两个变量相等
+     * @param $expected 期望值
+     * @param $actual 实际值
+     * @param string $message 消息
+     */
     public static function assertEquals($expected, $actual, string $message = '')
     {
         $constraint = new Equal($expected);
