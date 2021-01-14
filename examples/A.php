@@ -5,7 +5,7 @@
  *
  * @author zy
  */
-class A
+class ATest extends \mtf\Framework\TestCase
 {
     //put your code here
 }
