@@ -14,7 +14,6 @@ interface InterfaceTestResult
      */
     public function addListener(TestListener $listener);
 
-
     /**
      *
      * 取消注册一个钩子.
@@ -65,3 +64,4 @@ interface InterfaceTestResult
      * @throws \mtf\Excetions\InvalidArgumentException
      */
     public function endTest(Test $test, float $time);
+}
