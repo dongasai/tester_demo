@@ -1,6 +1,6 @@
 <?php 
 
-namespace mtf\Framework;
+namespace PHPunit\Framework;
 
 
 use const PHP_EOL;

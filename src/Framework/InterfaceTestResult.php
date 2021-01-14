@@ -10,40 +10,31 @@ interface InterfaceTestResult
 {
 
     /**
-     * @deprecated Use the `TestHook` interfaces instead
-     *
-     * @codeCoverageIgnore
-     *
-     * Registers a TestListener.
+     * 注册一个钩子.
      */
     public function addListener(TestListener $listener);
 
+
     /**
-     * @deprecated Use the `TestHook` interfaces instead
      *
-     * @codeCoverageIgnore
-     *
-     * Unregisters a TestListener.
+     * 取消注册一个钩子.
      */
     public function removeListener(TestListener $listener);
 
     /**
-     * @deprecated Use the `TestHook` interfaces instead
      *
-     * @codeCoverageIgnore
-     *
-     * Flushes all flushable TestListeners.
+     * 清空所有已注册的钩子.
      */
     public function flushListeners();
 
     /**
-     * Adds an error to the list of errors.
+     * 将错误添加到错误列表.
      */
     public function addError(Test $test, Throwable $t, float $time);
 
     /**
-     * Adds a warning to the list of warnings.
-     * The passed in exception caused the warning.
+     * 将警告添加到警告列表中.
+     * 传入的异常导致了警告.
      */
     public function addWarning(Test $test, Warning $e, float $time);
 
@@ -70,7 +61,7 @@ interface InterfaceTestResult
 
     /**
      * 通知测试已完成。
+     *
      * @throws \mtf\Excetions\InvalidArgumentException
      */
     public function endTest(Test $test, float $time);
-}

@@ -9,5 +9,9 @@ namespace mtf\Framework;
  */
 class TestResult implements InterfaceTestResult
 {
-    
+    public function addError(Test $test, Throwable $t, float $time)
+    {
+        // TODO: Implement addError() method.
+    }
+
 }

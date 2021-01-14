@@ -1,5 +1,6 @@
 <?php 
 declare(strict_types=1);
+
 /*
  * This file is part of PHPUnit.
  *
@@ -119,8 +120,8 @@ use Throwable;
  */
 abstract class TestCase extends Assert implements Reorderable, SelfDescribing, Test
 {
-    private const LOCALE_CATEGORIES = [LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME];
 
+    
     /**
      * @var ?bool
      */
@@ -478,20 +479,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         return new ConsecutiveCallsStub($args);
     }
 
-    /**
-     * @param int|string $dataName
-     *
-     * @internal This method is not covered by the backward compatibility promise for PHPUnit
-     */
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        if ($name !== null) {
-            $this->setName($name);
-        }
 
-        $this->data     = $data;
-        $this->dataName = $dataName;
-    }
+    
 
     /**
      * This method is called before the first test of this test class is run.
@@ -1050,13 +1039,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         return is_string($this->outputExpectedString) || is_string($this->outputExpectedRegex) || $this->outputRetrievedForAssertion;
     }
 
-    /**
-     * @internal This method is not covered by the backward compatibility promise for PHPUnit
-     */
-    public function getExpectedException(): ?string
-    {
-        return $this->expectedException;
-    }
+
+    
 
     /**
      * @return null|int|string
@@ -1068,21 +1052,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         return $this->expectedExceptionCode;
     }
 
-    /**
-     * @internal This method is not covered by the backward compatibility promise for PHPUnit
-     */
-    public function getExpectedExceptionMessage(): ?string
-    {
-        return $this->expectedExceptionMessage;
-    }
 
-    /**
-     * @internal This method is not covered by the backward compatibility promise for PHPUnit
-     */
-    public function getExpectedExceptionMessageRegExp(): ?string
-    {
-        return $this->expectedExceptionMessageRegExp;
-    }
+
 
     /**
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
@@ -1268,7 +1239,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
-    public function setBeStrictAboutChangesToGlobalState(?bool $beStrictAboutChangesToGlobalState): void
+    public function setBeStrictAboutChangesToGlobalState(bool $beStrictAboutChangesToGlobalState): void
     {
         $this->beStrictAboutChangesToGlobalState = $beStrictAboutChangesToGlobalState;
     }
@@ -1276,7 +1247,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
-    public function setBackupGlobals(?bool $backupGlobals): void
+    public function setBackupGlobals(bool $backupGlobals): void
     {
         if ($this->backupGlobals === null && $backupGlobals !== null) {
             $this->backupGlobals = $backupGlobals;
@@ -1286,7 +1257,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
-    public function setBackupStaticAttributes(?bool $backupStaticAttributes): void
+    public function setBackupStaticAttributes(bool $backupStaticAttributes): void
     {
         if ($this->backupStaticAttributes === null && $backupStaticAttributes !== null) {
             $this->backupStaticAttributes = $backupStaticAttributes;
@@ -1364,7 +1335,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
      */
-    public function getTestResultObject(): ?TestResult
+    public function getTestResultObject(): TestResult
     {
         return $this->result;
     }
@@ -1632,40 +1603,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         }
     }
 
-    /**
-     * This method is a wrapper for the setlocale() function that automatically
-     * resets the locale to its original value after the test is run.
-     *
-     * @throws Exception
-     */
-    protected function setLocale(...$args): void
-    {
-        if (count($args) < 2) {
-            throw new Exception;
-        }
-
-        [$category, $locale] = $args;
-
-        if (!in_array($category, self::LOCALE_CATEGORIES, true)) {
-            throw new Exception;
-        }
-
-        if (!is_array($locale) && !is_string($locale)) {
-            throw new Exception;
-        }
-
-        $this->locale[$category] = setlocale($category, 0);
-
-        $result = setlocale(...$args);
-
-        if ($result === false) {
-            throw new Exception(
-                'The locale functionality is not implemented on your platform, ' .
-                'the specified locale does not exist or the category name is ' .
-                'invalid.'
-            );
-        }
-    }
+    
 
     /**
      * Makes configurable stub for the specified class.
@@ -1923,7 +1861,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @psalm-param class-string|null $classOrInterface
      */
-    protected function prophesize(?string $classOrInterface = null): ObjectProphecy
+    protected function prophesize(string $classOrInterface = null): ObjectProphecy
     {
         $this->addWarning('PHPUnit\Framework\TestCase::prophesize() is deprecated and will be removed in PHPUnit 10. Please use the trait provided by phpspec/prophecy-phpunit.');
 
@@ -2524,8 +2462,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
     private function isCallableTestMethod(string $dependency): bool
     {
-        [$className, $methodName] = explode('::', $dependency);
 
+        
         if (!class_exists($className)) {
             return false;
         }
