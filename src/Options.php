@@ -23,6 +23,7 @@ class Options
         'stopOnSkipped'  => 'bool',
         'failOnWarning'  => 'bool',
         'verbose'        => 'bool',
+        'parallel'       => 'int',
         'debug'          => 'bool',
         'repeat'         => 'int',
         'pathCoverage'   => 'dir',
@@ -58,6 +59,7 @@ class Options
     public static $coverageText; //
     public static $coverageXml;
     public static $tmp; // 临时文件目录
+    public static $parallel;// 同时运行多个平行的测试任务
 
     public function __construct($value)
     {
@@ -118,7 +120,9 @@ class Options
         if (empty(self::$tmp)) {
             self::$tmp = START_DIR . DIRECTORY_SEPARATOR . '.tmp';
         }
+        
     }
+    
 
     /**
      * 验证是是否为文件

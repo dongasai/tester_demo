@@ -21,7 +21,10 @@ class Command extends \Ahc\Cli\Input\Command
         $this->version($version)
                 ->option('-c --configuration', "使用的配置文件")
                 ->option('--tmp', '临时文件目录')
+                ->option('--parallel', '并行运行几个线程', null, 8)
                 ->option('--bootstrap', '引导启动文件');
+
+//        intval($version);
         $this->argument('[file]', "要运行的测试文件或文件夹");
         $this->usageExample();
         $this->testExecutionOptions();
@@ -95,6 +98,7 @@ EOT;
         $this->option('--list-groups','列出可用的测试组。');
         $this->option('--list-suites','列出可用的测试套件');
         $this->option('--test-suffix','仅在指定的文件中搜索test后缀(es)。默认值:Test.php .phpt');
+        
     }
 
 

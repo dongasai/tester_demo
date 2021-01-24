@@ -13,26 +13,104 @@ namespace mtf\Action;
  *
  * @author dongasai
  */
-class Tester extends Action
+class Tester
+        extends Action
 {
+
+    private $caseFiles = [];
+    private $caseClasss = [];
 
     public function run()
     {
         if (\mtf\Options::$pathCoverage) {
             $this->callAction(codeCoverage::class, [\mtf\Options::$pathCoverage]);
         }
-        
-        if(\mtf\Options::$dir){
-            
+
+        if (\mtf\Options::$dir) {
+            $dir = \mtf\Options::$dir;
+            // 读取其中的 测试用例
+            $this->readDir($dir);
+        }
+        $nameResolver = new \PhpParser\NodeVisitor\NameResolver;
+        $nodeTraverser = new \PhpParser\NodeTraverser;
+        $nodeTraverser->addVisitor($nameResolver);
+
+        // Resolve names
+//        $stmts = $nodeTraverser->traverse($stmts);
+        if ($this->caseFiles) {
+            // 运行测试用例
+            $classOld = get_declared_classes();
+            foreach ($this->caseFiles as $caseFile) {
+                include_once $caseFile;
+                $code = file_get_contents($caseFile);
+                $parser = (new \PhpParser\ParserFactory())->create(\PhpParser\ParserFactory::PREFER_PHP7);
+                try{
+                    $asts = $parser->parse($code);
+                    $asts = $nodeTraverser->traverse($asts);
+                    foreach ($asts as $ast) {
+                        if ($ast instanceof \PhpParser\Node\Stmt\Class_) {
+                            $this->caseClasss[] = $ast->name->toString();
+                        }elseif($ast instanceof \PhpParser\Node\Stmt\Namespace_){
+                            $namespace = $ast->namespacedName;
+                          
+//                            dump($ast->stmts);
+                            foreach ($ast->stmts as $ast2) {
+                                if ($ast2 instanceof \PhpParser\Node\Stmt\Class_) {
+                                    $this->caseClasss[] =$ast2->namespacedName->toString();
+                                }
+                            }
+                            
+                        }
+                    }
+                } catch (\Exception $ex) {
+                    echo "Parse error: {$error->getMessage()}\n";
+                    exit;
+                }
+
+                
+               
+            }
+           
+        }
+        if ($this->caseClasss) {
+            (new \mtf\Framework\CaseRuner($this->caseClasss))->run();
+        }
+    }
+
+    /**
+     * 读取文件夹,只选中测试文件 *Test.php
+     * @param string $dir
+     */
+    private function readDir(string $dir)
+    {
+        if (!is_dir($dir)) {
+            throw new \mtf\Excetions\TestDirNotFoundExcetion($dir);
+        }
+
+        $handle = opendir($dir);
+        if ($handle) {
+            while (($fl = readdir($handle)) !== false) {
+                $temp = $dir . DIRECTORY_SEPARATOR . $fl;
+                if (is_dir($temp) && $fl != '.' && $fl != '..') {
+                    $this->readDir($temp);
+                } else {
+                    if ($fl != '.' && $fl != '..') {
+                        // 文件
+                        if (substr($fl, -8) === 'Test.php') {
+                            $this->caseFiles[] = $temp;
+                        }
+                    }
+                }
+            }
         }
     }
 
     private function callAction($className, $param_arr)
     {
-         if (!class_exists($className)) {
+        if (!class_exists($className)) {
             throw new Exception("不存在的 Action 类");
         }
-        call_user_func_array([new $className($this->command),'run'], $param_arr);        
+        call_user_func_array([new $className($this->command), 'run'], $param_arr);
     }
 
 }

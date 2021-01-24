@@ -9,6 +9,7 @@ namespace mtf\Framework;
  */
 abstract class TestCase
 {
+    
 
     /**
      * 此方法在运行此测试类的第一个测试之前被调用。
@@ -40,7 +41,6 @@ abstract class TestCase
     protected function tearDown()
     {
         
-
     }
 
 }
