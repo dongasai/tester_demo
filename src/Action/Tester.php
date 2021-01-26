@@ -13,17 +13,19 @@ namespace mtf\Action;
  *
  * @author dongasai
  */
-class Tester
-        extends Action
+class Tester extends Action
 {
 
-    private $caseFiles = [];
-    private $caseClasss = [];
+    private $caseFiles  = [
+];
+    private $caseClasss = [
+];
 
     public function run()
     {
         if (\mtf\Options::$pathCoverage) {
-            $this->callAction(codeCoverage::class, [\mtf\Options::$pathCoverage]);
+            $this->callAction(codeCoverage::class, [
+                \mtf\Options::$pathCoverage]);
         }
 
         if (\mtf\Options::$dir) {
@@ -31,7 +33,7 @@ class Tester
             // 读取其中的 测试用例
             $this->readDir($dir);
         }
-        $nameResolver = new \PhpParser\NodeVisitor\NameResolver;
+        $nameResolver  = new \PhpParser\NodeVisitor\NameResolver;
         $nodeTraverser = new \PhpParser\NodeTraverser;
         $nodeTraverser->addVisitor($nameResolver);
 
@@ -42,38 +44,50 @@ class Tester
             $classOld = get_declared_classes();
             foreach ($this->caseFiles as $caseFile) {
                 include_once $caseFile;
-                $code = file_get_contents($caseFile);
+                $code   = file_get_contents($caseFile);
                 $parser = (new \PhpParser\ParserFactory())->create(\PhpParser\ParserFactory::PREFER_PHP7);
-                try{
+                try {
                     $asts = $parser->parse($code);
                     $asts = $nodeTraverser->traverse($asts);
                     foreach ($asts as $ast) {
                         if ($ast instanceof \PhpParser\Node\Stmt\Class_) {
                             $this->caseClasss[] = $ast->name->toString();
-                        }elseif($ast instanceof \PhpParser\Node\Stmt\Namespace_){
+                        } elseif ($ast instanceof \PhpParser\Node\Stmt\Namespace_) {
                             $namespace = $ast->namespacedName;
-                          
+
 //                            dump($ast->stmts);
                             foreach ($ast->stmts as $ast2) {
                                 if ($ast2 instanceof \PhpParser\Node\Stmt\Class_) {
-                                    $this->caseClasss[] =$ast2->namespacedName->toString();
+                                    $this->caseClasss[] = $ast2->namespacedName->toString();
                                 }
                             }
-                            
                         }
                     }
                 } catch (\Exception $ex) {
                     echo "Parse error: {$error->getMessage()}\n";
                     exit;
                 }
-
-                
-               
             }
-           
         }
         if ($this->caseClasss) {
-            (new \mtf\Framework\CaseRuner($this->caseClasss))->run();
+            \mtf\Command::getWriter()->warn("可测试的用例:", true);
+            \mtf\Helper::array2table($this->caseClasss);
+            $threadCase = [];
+            foreach ($this->caseClasss as $class) {
+                $comment       = new \mtf\Framework\Comment($class, 'class');
+                $commentOption = $comment->parse();
+                $thread = $commentOption['thread'][0]??0;
+                $threadCase[$thread % \mtf\Options::$parallel][] = $class;
+            }
+            
+            $poll = new \mtf\Framework\Pool(\mtf\Options::$parallel);
+            foreach ($threadCase as $t =>$caseS){
+                foreach ($caseS as $caseClass){
+                    $poll->execute(new \Jenner\SimpleFork\Process(new \mtf\Framework\CaseRuner($caseClass),$t));
+                }
+            }
+            $poll->wait(false, 1000);
+            dump($poll->getProcesses()->);
         }
     }
 
@@ -110,7 +124,9 @@ class Tester
         if (!class_exists($className)) {
             throw new Exception("不存在的 Action 类");
         }
-        call_user_func_array([new $className($this->command), 'run'], $param_arr);
+        call_user_func_array([
+            new $className($this->command),
+            'run'], $param_arr);
     }
 
 }

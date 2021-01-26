@@ -4,10 +4,10 @@ namespace examples;
 
 /**
  * Description of ETest
- *
- * @author Administrator
+ * @thread 0 无所谓那个线程
+ * @author dongasai
  */
-class ETest
+class ETest extends \mtf\Framework\TestCase
 {
     //put your code here
 }

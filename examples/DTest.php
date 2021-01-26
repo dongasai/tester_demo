@@ -8,10 +8,16 @@
 
 /**
  * Description of D
- * @thread 4 运行于那个线程
+ * @thread 4 运行于第四个线程
  * @author dongasai
  */
 class DTest extends \mtf\Framework\TestCase
 {
-    //put your code here
+
+    public function testA()
+    {
+        echo "这是 Dtest - A;";
+//        method_exists($object, $method_name)
+    }
+
 }

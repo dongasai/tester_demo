@@ -23,3 +23,18 @@
 
 * [tester](https://github.com/nette/tester) 简单的多进程测试框架
 * [phpunit](https://github.com/sebastianbergmann/phpunit) 流行的测试框架
+
+## 使用说明
+
+### 注解
+#### Class 可用注解
+
+* `@thread [int $number]`   使用平行线程
+    * `$number` 可选参数int类型,使用第几个平行线程,默认为随机选择线程.超出允许线程数之外将取余,这样可以保证使用同一线程的测试用例位于同一线程.
+    
+> (**<=0 都是随机线程**)
+* `@times   int `   运行次数,该测试用例的运行次数(要确保该用例可重复运行)
+
+#### method 可用注解
+
+* `@times   int `  运行次数,该测试用例的运行次数(要确保该用例可重复运行)

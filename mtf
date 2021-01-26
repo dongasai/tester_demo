@@ -1,4 +1,6 @@
 #!/usr/bin/env php
 <?php
 
+define('RUN_UNIQID', uniqid());
+
 require __DIR__ . '/src/mtf.php';
