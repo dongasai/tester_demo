@@ -83,11 +83,11 @@ class Tester extends Action
             $poll = new \mtf\Framework\Pool(\mtf\Options::$parallel);
             foreach ($threadCase as $t =>$caseS){
                 foreach ($caseS as $caseClass){
-                    $poll->execute(new \Jenner\SimpleFork\Process(new \mtf\Framework\CaseRuner($caseClass),$t));
+                    $poll->execute(new \mtf\Framework\Process(new \mtf\Framework\CaseRuner($caseClass),$t));
                 }
             }
-            $poll->wait(false, 1000);
-            dump($poll->getProcesses()->);
+            $poll->wait(true, 1000);
+//            dump($poll->getProcesses());
         }
     }
 

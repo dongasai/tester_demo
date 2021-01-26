@@ -4,8 +4,8 @@ namespace mtf\Framework;
 
 /**
  * Description of Pool
- *
- * @author zy
+ * @property Process[] $processes 进程池
+ * @author dongasia
  */
 class Pool extends \Jenner\SimpleFork\AbstractPool
 {
@@ -14,6 +14,7 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
      * @var int max process count
      */
     protected $max;
+    private $pool = [];
 
     /**
      * @param int $max
@@ -21,6 +22,43 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
     public function __construct($max = 4)
     {
         $this->max = $max;
+        for ($i = 1; $i <= $max; $i++) {
+            $this->pool[$i] = false;
+        }
+    }
+
+    /**
+     * 设置线程状态
+     * @param int $Ptid
+     */
+    private function setPoolStatus($Ptid = 0)
+    {
+        if ($Ptid > 0) {
+            if ($this->pool[$Ptid]) {
+               
+                return false;
+            } else {
+                $this->pool[$Ptid] = true;
+                return $Ptid;
+            }
+        } else {
+            foreach ($this->pool as $k => $val) {
+                if ($val === false) {
+                    $this->pool[$k] = true;
+                    return $k;
+                }
+            }
+            return false;
+        }
+    }
+    /**
+     * 取消正在运行的状态
+     * @param int $Ptid
+     */
+    private function clearPoolStatus($Ptid)
+    {
+        $this->pool[$Ptid] = false;
+        return $Ptid;
     }
 
     /**
@@ -31,11 +69,13 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
     {
         \Jenner\SimpleFork\Utils::checkOverwriteRunMethod(get_class($process));
 
-        if ($this->aliveCount() < $this->max && !$process->isStarted()) {
-
-            if ($process->name() == 0 || $this->aliveCountP($process->name()) == 0) {
-                // 随机进程,同名进程为0 
+        if (!$process->isStarted()  ) {
+            $Ptid  = $this->setPoolStatus($process->name());
+            if($Ptid){
+                // 获取进程成功,可以启动
+                $process->setPtid($Ptid);
                 $process->start();
+                
             }
         }
         array_push($this->processes, $process);
@@ -58,11 +98,21 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
             if ($this->aliveCount() < $this->max) {
                 foreach ($this->processes as $process) {
                     if ($process->isStarted()) {
+                        if(!$process->isStopped()){
+                            $this->clearPoolStatus($process->getPtid());
+                        }
                         continue;
                     }
-                    if ($process->name() == 0 || $this->aliveCountP($process->name()) == 0) {
+                
+                    $Ptid  = $this->setPoolStatus($process->name());
+                    if($Ptid){
+                        // 获取进程成功,可以启动
+                        $process->setPtid($Ptid);
                         $process->start();
+                        
                     }
+                    
+                    
                     if ($this->aliveCount() >= $this->max) {
                         break;
                     }
@@ -72,24 +122,6 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
         } while ($block);
     }
 
-    /**
-     * 统计正在运行的进程,根据进程名字
-     * @param int $processesNumber
-     * @return int
-     */
-    public function aliveCountP($processesNumber)
-    {
-        $count = 0;
-        /**
-         * @var $process Process
-         */
-        foreach ($this->processes as $process) {
-            if ($process->name() == $processesNumber && $process->isRunning()) {
-                $count++;
-            }
-        }
-
-        return $count;
-    }
+    
 
 }

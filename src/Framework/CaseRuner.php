@@ -11,10 +11,17 @@ class CaseRuner implements \Jenner\SimpleFork\Runnable
 {
 
     private $caseClasss;
+    
+    private $Ptid; // 线程id,位于第几线程,并非系统进程id
 
     public function __construct($caseClass)
     {
         $this->caseClasss = $caseClass;
+    }
+
+    public function setPtid($Ptid)
+    {
+        $this->Ptid = $Ptid;
     }
 
     /**
@@ -22,7 +29,8 @@ class CaseRuner implements \Jenner\SimpleFork\Runnable
      */
     public function run()
     {
-        dump($this->caseClasss,getmypid());
+        sleep(1);
+        dump($this->caseClasss, time(), $this->Ptid);
     }
 
 }
