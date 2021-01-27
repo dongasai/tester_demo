@@ -9,12 +9,13 @@ namespace mtf\Framework;
  */
 abstract class TestCase
 {
-    
 
+    use \mtf\Traits\Assert;
+    
     /**
      * 此方法在运行此测试类的第一个测试之前被调用。
      */
-    public static function setUpBeforeClass()
+    static public function setUpBeforeClass()
     {
         
     }
@@ -22,7 +23,7 @@ abstract class TestCase
     /**
      * 此方法在运行此测试类的最后一次测试后调用。
      */
-    public static function tearDownAfterClass()
+    static public function tearDownAfterClass()
     {
         
     }
@@ -40,6 +41,13 @@ abstract class TestCase
      */
     protected function tearDown()
     {
+        
+    }
+
+    public function run()
+    {
+        $me = get_class_methods($this);
+        dd($me);
         
     }
 

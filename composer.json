@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "a": [
-      "./mtf --debug --verbose --path-coverage examples examples"
+      "./mtf --debug --verbose examples/DTest.php "
     ],
     "b": [
       "vendor/bin/phpunit "

@@ -26,7 +26,16 @@ class Process extends \Jenner\SimpleFork\Process
         $this->Ptid = $Ptid;
         $this->runnable->setPtid($Ptid);
     }
-    
+    /**
+     * 获取执行对象的类
+     * @return string
+     */
+    public function getCallableClass()
+    {
+       return $this->runnable->getCaseClasss();
+    }
+
+
     /**
      * 获取线程id
      * @return type

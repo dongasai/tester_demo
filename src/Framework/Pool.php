@@ -15,6 +15,7 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
      */
     protected $max;
     private $pool = [];
+    private $poolPid = [];
 
     /**
      * @param int $max
@@ -33,9 +34,9 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
      */
     private function setPoolStatus($Ptid = 0)
     {
+      
         if ($Ptid > 0) {
             if ($this->pool[$Ptid]) {
-               
                 return false;
             } else {
                 $this->pool[$Ptid] = true;
@@ -55,9 +56,13 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
      * 取消正在运行的状态
      * @param int $Ptid
      */
-    private function clearPoolStatus($Ptid)
+    private function clearPoolStatus($Ptid,$pid)
     {
+        if(isset($this->poolPid[$pid])){
+            return false;
+        }
         $this->pool[$Ptid] = false;
+        $this->poolPid[$pid] = true;
         return $Ptid;
     }
 
@@ -98,13 +103,14 @@ class Pool extends \Jenner\SimpleFork\AbstractPool
             if ($this->aliveCount() < $this->max) {
                 foreach ($this->processes as $process) {
                     if ($process->isStarted()) {
-                        if(!$process->isStopped()){
-                            $this->clearPoolStatus($process->getPtid());
+                        if(!$process->isRunning()){
+                            $this->clearPoolStatus($process->getPtid(),$process->getPid());
                         }
                         continue;
                     }
                 
                     $Ptid  = $this->setPoolStatus($process->name());
+                    
                     if($Ptid){
                         // 获取进程成功,可以启动
                         $process->setPtid($Ptid);

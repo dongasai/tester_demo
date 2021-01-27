@@ -11,6 +11,7 @@ class Comment
 {
 
     private $string;
+    private $options;
 
     public function __construct($name, $type)
     {
@@ -22,7 +23,7 @@ class Comment
 
     public function parse(): array
     {
-        $s = $this->string;
+        $s       = $this->string;
         $options = [];
         if (!preg_match('#^/\*\*(.*?)\*/#ms', $s, $content)) {
             return [];
@@ -31,24 +32,69 @@ class Comment
             $options[0] = trim($matches[1]);
         }
         preg_match_all('#^[ \t\*]*@(\w+)([^\w\r\n].*)?#mi', $content[1], $matches, PREG_SET_ORDER);
+
         foreach ($matches as $match) {
-            $ref = &$options[strtolower($match[1])];
-            if (isset($ref)) {
-                $ref = (array) $ref;
-                $ref = &$ref[];
+            $name = $match[1];
+            if (isset($options[$name])) {
+                if(!is_array($options[$name])){
+                    $options[$name] = [ $options[$name]];
+                }
+              
+                $options[$name][] = isset($match[2]) ? trim($match[2]) : '';
+            }else{
+                $options[$name] = isset($match[2]) ? trim($match[2]) : '';
             }
-            $ref = isset($match[2]) ? trim($match[2]) : '';
         }
+        $this->options = $options;
         foreach ($options as $k => $v) {
             if (is_string($k)) {
                 $method_name = 'parse' . ucfirst($k);
-                if(method_exists($this, $method_name)){
-                    $options[$k] = $this->$method_name($v);
+                if (method_exists($this, $method_name)) {
+                    $this->$method_name($v);
                 }
             }
         }
+        dump($this->options);
+        return $this->options;
+    }
 
-        return $options;
+    /**
+     * 解析small
+     */
+    private function parseSmall()
+    {
+        $this->parseAuthor('small');
+    }
+    
+    /**
+     * 解析 medium
+     */
+    private function parseMedium()
+    {
+        $this->parseAuthor('medium');
+    }
+    
+    /**
+     * 解析 large
+     */
+    private function parseLarge()
+    {
+        $this->parseAuthor('large');
+    }
+    // large
+    
+    /**
+     * 解析作者
+     * 解析为分组
+     * @param string $string
+     */
+    private function parseAuthor($string)
+    {
+        if (is_array($this->options)) {
+            $this->options['group'][] = $string;
+        } else {
+            $this->options['group'] = [$string];
+        }
     }
 
     /**
@@ -56,11 +102,11 @@ class Comment
      * @param string $string
      * @return array
      */
-    private function parseThread($string): array
+    private function parseThread($string)
     {
         $array = explode(' ', $string);
-        $re    = [array_shift($array)];
-        $re[]  = implode(' ', $array);
+        $this->options['thread']    = array_shift($array);
+      
         return $re;
     }
 
