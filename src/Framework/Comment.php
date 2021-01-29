@@ -19,6 +19,10 @@ class Comment
             $r            = new \ReflectionClass($name);
             $this->string = $r->getDocComment();
         }
+        if ($type === 'Method') {
+            $r            = new \ReflectionMethod($name[0], $name[1]);
+            $this->string = $r->getDocComment();
+        }
     }
 
     public function parse(): array
@@ -36,12 +40,12 @@ class Comment
         foreach ($matches as $match) {
             $name = $match[1];
             if (isset($options[$name])) {
-                if(!is_array($options[$name])){
-                    $options[$name] = [ $options[$name]];
+                if (!is_array($options[$name])) {
+                    $options[$name] = [$options[$name]];
                 }
-              
+
                 $options[$name][] = isset($match[2]) ? trim($match[2]) : '';
-            }else{
+            } else {
                 $options[$name] = isset($match[2]) ? trim($match[2]) : '';
             }
         }
@@ -65,7 +69,7 @@ class Comment
     {
         $this->parseAuthor('small');
     }
-    
+
     /**
      * 解析 medium
      */
@@ -73,7 +77,7 @@ class Comment
     {
         $this->parseAuthor('medium');
     }
-    
+
     /**
      * 解析 large
      */
@@ -81,8 +85,9 @@ class Comment
     {
         $this->parseAuthor('large');
     }
+
     // large
-    
+
     /**
      * 解析作者
      * 解析为分组
@@ -104,10 +109,36 @@ class Comment
      */
     private function parseThread($string)
     {
-        $array = explode(' ', $string);
-        $this->options['thread']    = array_shift($array);
-      
+        $array                   = explode(' ', $string);
+        $this->options['thread'] = array_shift($array);
+
         return $re;
+    }
+    /**
+     * 获取重复执行次数
+     * @return int
+     */
+    public function getTimes(): int
+    {
+        return intval($this->options['times'] ?? 1);
+    }
+
+    /**
+     * 获取数据依赖
+     * @return string
+     */
+    public function getDataProvider():string
+    {
+        return $this->options['dataProvider'] ?? '';
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getDepends():string
+    {
+        return $this->options['depends'] ?? '';
     }
 
 }

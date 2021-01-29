@@ -121,7 +121,7 @@ class Tester extends Action
     private function readDir(string $dir)
     {
         if (!is_dir($dir)) {
-            throw new \mtf\Excetions\TestDirNotFoundExcetion($dir);
+            throw new \mtf\Excetions\TestDirNotFoundException($dir);
         }
 
         $handle = opendir($dir);

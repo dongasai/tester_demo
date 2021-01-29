@@ -7,11 +7,18 @@ namespace mtf\Framework;
  * 测试用例运行
  * @author dongasai
  */
-class CaseRuner implements \Jenner\SimpleFork\Runnable
+class CaseRuner
+        implements \Jenner\SimpleFork\Runnable
 {
 
     private $caseClasss;
     private $Ptid; // 线程id,位于第几线程,并非系统进程id
+    private $testFunc = [];
+    /**
+     *
+     * @var TestCase 
+     */
+    private $handle;
 
     public function __construct($caseClass)
     {
@@ -36,22 +43,34 @@ class CaseRuner implements \Jenner\SimpleFork\Runnable
         sleep(2);
         $caseClass = $this->caseClasss;
 
-        
-        $r = new \ReflectionMethod($caseClass, 'setUpBeforeClass');
+
         // 前置方法
         $caseClass::setUpBeforeClass();
-        
+
         // 正式运行
         $case = new $caseClass();
-        if($case instanceof TestCase){
+        if ($case instanceof TestCase) {
             
         }
-        $case->run();
-        
+        $this->handle = $case;
+        $me           = get_class_methods($case);
+
+        foreach ($me as $func) {
+            if (substr($func, 0, 4) === 'test') {
+                $this->testFunc[] = $func;
+            }
+        }
+
+        foreach ($this->testFunc as $func) {
+            $this->handle->run($func);
+        }
+
         // 后置方法
         // tearDownAfterClass
         $caseClass::tearDownAfterClass();
-        
     }
+
+  
+    
 
 }

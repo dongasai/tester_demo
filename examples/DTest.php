@@ -24,11 +24,14 @@
 class DTest extends \mtf\Framework\TestCase
 {
 
+    /**
+     * @times 3
+     */
     public function testA()
     {
+        dump(__CLASS__,__FUNCTION__);
         $actual= 1;
         $this->assertEquals(1, $actual);
-        
     }
 
 }

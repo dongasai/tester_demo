@@ -3,11 +3,11 @@
 namespace mtf\Excetions;
 
 /**
- * Description of TestDirNotFoundExcetion
+ * Description of TestDirNotFoundException
  * 测试文件夹未找到
  * @author dongasai
  */
-class TestDirNotFoundExcetion
+class TestDirNotFoundException
         extends \Exception
 {
 
