@@ -2,6 +2,8 @@
 
 namespace mtf\Framework;
 
+use SebastianBergmann\Timer\Duration;
+
 /**
  * Description of TestResult
  *
@@ -11,15 +13,14 @@ class TestResult
         implements InterfaceTestResult
 {
 
-    /**
-     * 增加一个致命错误
-     * @param \mtf\Framework\Test $test
-     * @param \Throwable $t
-     * @param float $time
-     */
-    public function addError(Test $test, Result\Throwable $t, float $time)
+    static private $instance;
+
+    static public function getInstance(): self
     {
-        // TODO: Implement addError() method.
+        if (empty(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instanc;
     }
 
     /**
@@ -47,12 +48,23 @@ class TestResult
     }
 
     /**
+     * 增加一个致命错误
+     * @param \mtf\Framework\Test $test
+     * @param \Throwable $t
+     * @param float $time
+     */
+    public function addError(Test $test, Result\Throwable $t, Duration $time)
+    {
+        // TODO: Implement addError() method.
+    }
+
+    /**
      * 增加一个 测试 警告
      * @param \mtf\Framework\Test $test
      * @param \mtf\Framework\Result\Warning $e
-     * @param float $time
+     * @param Duration $time
      */
-    public function addWarning(Test $test, Result\Warning $e, float $time)
+    public function addWarning(Test $test, Result\Warning $e, Duration $time)
     {
         
     }
@@ -61,9 +73,9 @@ class TestResult
      * 增加一个测试失败
      * @param \mtf\Framework\Test $test
      * @param \mtf\Framework\Result\AssertionFailedError $e
-     * @param float $time
+     * @param Duration $time
      */
-    public function addFailure(Test $test, Result\AssertionFailedError $e, float $time)
+    public function addFailure(Test $test, Result\AssertionFailedError $e, Duration $time)
     {
         ;
     }
@@ -78,8 +90,10 @@ class TestResult
 
     /**
      * 通知测试套件已经完成。
+     * @param \mtf\Framework\TestSuite $suite
+     * @param Duration $time
      */
-    public function endTestSuite(TestSuite $suite)
+    public function endTestSuite(TestSuite $suite, Duration $time)
     {
         
     }
@@ -93,11 +107,11 @@ class TestResult
     }
 
     /**
-     * 通知测试已完成。
-     *
-     * @throws \mtf\Excetions\InvalidArgumentException
+     * 通知测试已完成
+     * @param \mtf\Framework\Test $test
+     * @param Duration $time
      */
-    public function endTest(Test $test, float $time)
+    public function endTest(Test $test, Duration $time)
     {
         
     }

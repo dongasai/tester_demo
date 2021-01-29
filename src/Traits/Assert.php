@@ -15,6 +15,7 @@ use mtf\Framework\Constraint;
  */
 trait Assert
 {
+    static $count;
     /**
      * Asserts that two variables are equal.
      *

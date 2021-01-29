@@ -12,7 +12,7 @@ abstract class TestCase
 
     use \mtf\Traits\Assert;
 
-    static protected $_return;
+    static public $_return;
 
     /**
      * 此方法在运行此测试类的第一个测试之前被调用。
@@ -48,6 +48,8 @@ abstract class TestCase
 
     public function run($func)
     {
+        
+        $test         = new Test($this, $func);
         $options      = new Comment([$this, $func], 'Method');
         $times        = $options->getTimes();
         $dataProvider = $options->getDataProvider();
@@ -66,7 +68,7 @@ abstract class TestCase
         if ($depends) {
             if (!isset(self::$_return['depends'])) {
                 // 跳过
-                TestResult::class;
+                TestResult::getInstance()->addWarning($test, new Result\Warning(),$test->getRunTimes());
             }
         }
         for ($i = 0; $i < $times; $i++) {
