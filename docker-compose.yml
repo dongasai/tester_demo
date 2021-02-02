@@ -14,3 +14,23 @@ services:
       - .:/var/www/html
     ports:
       - 80
+  php71:
+    build: ci/php71
+    image: tester:70
+    privileged: false
+    restart: unless-stopped
+    tty: true
+    volumes: 
+      - .:/var/www/html
+    ports:
+      - 80
+  php72:
+    build: ci/php72
+    image: tester:70
+    privileged: false
+    restart: unless-stopped
+    tty: true
+    volumes: 
+      - .:/var/www/html
+    ports:
+      - 80

@@ -7,7 +7,8 @@ do
     echo ".................. job begin  ..................."
     echo $flag;
     # ...... 添加要执行的内容，flag 的值在这个逻辑中更改为1，或者不变......
-    sudo docker-compose build && flag=0;
+    echo $1;
+    $1 && flag=0;
     # 检查和重试过程   
     if [ $flag -eq 0 ]; 
     then     #执行成功，不重试
