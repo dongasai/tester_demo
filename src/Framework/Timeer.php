@@ -17,18 +17,18 @@ final class Timeer
      */
     private $startTimes;
 
-    public function start(): void
+    public function start()
     {
         if ($this->startTimes) {
             throw new \mtf\Excetions\Exception("重复初始化计时器");
         }
-        $this->startTimes = (float) hrtime(true);
+        $this->startTimes = (float) microtime(true);
     }
 
     /**
      * @throws NoActiveTimerException
      */
-    public function end(): Duration
+    public function end() :float
     {
         if (empty($this->startTimes)) {
             throw new \SebastianBergmann\Timer\NoActiveTimerException(
@@ -36,7 +36,7 @@ final class Timeer
             );
         }
 
-        return Duration::fromNanoseconds((float) hrtime(true) - $this->startTimes);
+        return microtime(true) - $this->startTimes;
     }
 
 }

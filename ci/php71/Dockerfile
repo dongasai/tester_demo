@@ -33,7 +33,7 @@ RUN wget https://mirrors.aliyun.com/composer/composer.phar \
 
 # 安装多进程所需的几个扩展 进程控制,内存共享,消息队列,互斥锁
 RUN docker-php-ext-install pcntl sysvshm sysvmsg sysvsem;docker-php-ext-enable pcntl sysvshm sysvmsg sysvsem;
-RUN pecl install pcov xdebug;docker-php-ext-enable pcov xdebug
+RUN pecl install xdebug-2.9.8;docker-php-ext-enable xdebug
 
 COPY 1.ini /usr/local/etc/php/
 
