@@ -12,6 +12,7 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
 
     protected $defaultMessage = '';
     protected $expected = null;
+    protected $message = '';
 
     public function __construct($expected)
     {
@@ -42,17 +43,17 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
 
     /**
      * 约束条件的数量
-     * 两个约束条件的比如:范围断言
+     * 两个约束条件的比如:范围断言，非空字符串断言
      * @return int
      */
-    public static function count(): int
+    public function count(): int
     {
         return 1;
     }
 
     public function toString(): string
     {
-        ;
+        return $this->message;
     }
 
 }

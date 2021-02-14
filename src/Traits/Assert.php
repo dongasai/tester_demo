@@ -14,7 +14,9 @@ use mtf\Framework\Constraint;
  */
 trait Assert
 {
-    static $count;
+
+    static $count = 0;
+    static $AssertCount = 0;
 
     /**
      * 断言两个变量相等
@@ -48,7 +50,8 @@ trait Assert
      */
     protected static function assertThat($value, Constraint $constraint, string $message = '')
     {
-        self::$count += count($constraint);
+        self::$count += count($constraint); //约束
+        self::$AssertCount++; //断言
 
         $constraint->evaluate($value, $message);
     }
