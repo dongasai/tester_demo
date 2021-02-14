@@ -6,7 +6,6 @@ use mtf\Assert\Equal;
 use mtf\Excetions\InvalidArgumentException;
 use mtf\Framework\Constraint;
 
-
 /**
  * Trait Assert
  * 断言工具集
@@ -16,12 +15,7 @@ use mtf\Framework\Constraint;
 trait Assert
 {
     static $count;
-    /**
-     * Asserts that two variables are equal.
-     *
-     * @throws ExpectationFailedException
-     * @throws InvalidArgumentException
-     */
+
     /**
      * 断言两个变量相等
      * @param $expected 期望值
@@ -36,10 +30,23 @@ trait Assert
     }
 
     /**
+     * 断言是否为资源型，可附加断言资源类型
+     * @param $actual 变量
+     * @param $expected 资源类型
+     * @param string $message
+     */
+    public static function assertResource($actual, $expected = null, string $message = '')
+    {
+        $constraint = new \mtf\Assert\Type\Resource($expected);
+
+        static::assertThat($actual, $constraint, $message);
+    }
+
+    /**
      * 执行一个约束
      * @throws InvalidArgumentException
      */
-    public static function assertThat($value, Constraint $constraint, string $message = '')
+    protected static function assertThat($value, Constraint $constraint, string $message = '')
     {
         self::$count += count($constraint);
 
