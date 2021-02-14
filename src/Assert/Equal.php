@@ -13,6 +13,11 @@ class Equal
         extends Constraint
 {
 
+    public function matches($value, string$message){
+        return $this->count();
+    }
+
+
     public function toString(): string
     {
         return "期望值为: ,输入值是:";

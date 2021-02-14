@@ -4,16 +4,17 @@ namespace mtf\Framework;
 
 /**
  * Class Constraint InterfaceConstraint
- * 约束类,断言类应继承继承此类
+ * 约束类,断言类应继承此类
  * @package mtf\Framework
  */
-abstract class Constraint
-        implements SelfDescribing, \Countable
+abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstraint
 {
 
-    public function __construct()
+    protected $expected;
+
+    public function __construct($expected)
     {
-        ;
+        $this->expected = $expected;
     }
 
     /**
@@ -22,7 +23,7 @@ abstract class Constraint
      */
     public function evaluate($value, $message)
     {
-        
+        $this->matches($value, $message);
     }
 
     /**
