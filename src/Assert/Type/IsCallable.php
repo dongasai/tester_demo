@@ -10,7 +10,7 @@ namespace mtf\Assert\Type;
 class IsCallable extends \mtf\Framework\Constraint
 {
 
-    protected $defaultMessage = '希望是`回调体`. 结果是: %s';
+    protected $defaultMessage = '希望是`可调用结构`. 结果是: %s';
 
     public function assertions($value, $message = null): bool
     {
