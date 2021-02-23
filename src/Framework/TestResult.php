@@ -9,8 +9,7 @@ use SebastianBergmann\Timer\Duration;
  *
  * @author Administrator
  */
-class TestResult
-        implements InterfaceTestResult
+class TestResult implements InterfaceTestResult
 {
 
     static private $instance;
@@ -20,7 +19,7 @@ class TestResult
         if (empty(self::$instance)) {
             self::$instance = new self();
         }
-        return self::$instanc;
+        return self::$instance;
     }
 
     /**
@@ -53,7 +52,7 @@ class TestResult
      * @param \Throwable $t
      * @param float $time
      */
-    public function addError(Test $test, Result\Throwable $t, Duration $time)
+    public function addError(Test $test, $t,  $time)
     {
         // TODO: Implement addError() method.
     }
@@ -64,7 +63,7 @@ class TestResult
      * @param \mtf\Framework\Result\Warning $e
      * @param Duration $time
      */
-    public function addWarning(Test $test, Result\Warning $e, Duration $time)
+    public function addWarning(Test $test,  $e,  $time)
     {
         
     }
@@ -75,7 +74,7 @@ class TestResult
      * @param \mtf\Framework\Result\AssertionFailedError $e
      * @param Duration $time
      */
-    public function addFailure(Test $test, Result\AssertionFailedError $e, Duration $time)
+    public function addFailure(Test $test,  $e,  $time)
     {
         ;
     }

@@ -11,7 +11,7 @@ namespace mtf\Framework\Result;
 /**
  * Description of AssertionFailedError
  *
- * @author Administrator
+ * @author dongasai
  */
 class AssertionFailedError implements InterfaceResult
 {

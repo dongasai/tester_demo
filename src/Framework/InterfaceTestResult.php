@@ -31,19 +31,19 @@ interface InterfaceTestResult
     /**
      * 将错误添加到错误列表.
      */
-    public function addError(Test $test, Result\Throwable $t, \SebastianBergmann\Timer\Duration $time);
+//    public function addError(Test $test, Result\Throwable $t, \SebastianBergmann\Timer\Duration $time);
 
     /**
      * 将警告添加到警告列表中.
      * 传入的异常导致了警告.
      */
-    public function addWarning(Test $test, Result\Warning $e, \SebastianBergmann\Timer\Duration $time);
+//    public function addWarning(Test $test, Result\Warning $e, \SebastianBergmann\Timer\Duration $time);
 
     /**
      * 向失败列表中添加一个失败
      * 异常传入导致失败
      */
-    public function addFailure(Test $test, Result\AssertionFailedError $e, \SebastianBergmann\Timer\Duration $time);
+//    public function addFailure(Test $test, Result\AssertionFailedError $e, \SebastianBergmann\Timer\Duration $time);
 
     /**
      * 通知测试套件将开始.

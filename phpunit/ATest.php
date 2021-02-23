@@ -19,6 +19,8 @@ class ATest
     {
         $actual = 0;
         $this->assertEquals(0, $actual);
+                $this->assertClassHasStaticAttribute('foo', stdClass::class);
+
         
     }
 
