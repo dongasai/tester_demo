@@ -1,7 +1,7 @@
 <?php
 
 namespace mtf\Framework;
-
+use mtf\Framework\Result\AssertionFailedError;
 /**
  * Class Constraint InterfaceConstraint
  * 约束类,断言类应继承此类
@@ -38,7 +38,17 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
      */
     public function evaluate($value, string $message = null)
     {
-        $this->assertions($value, $message);
+        try {
+             $this->assertions($value, $message);
+        } catch (\InvalidArgumentException $InvalidArgumentException) {
+
+            dump($InvalidArgumentException);
+        } catch (\Exception $Exception) {
+           
+            
+        }
+        
+       
     }
 
     /**
