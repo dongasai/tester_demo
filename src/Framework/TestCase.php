@@ -62,7 +62,7 @@ abstract class TestCase
             }
             $provider = call_user_func([$this, $dataProvider]);
             if (!is_array($provider)) {
-                new \mtf\Excetions\ProviderDataException($that, $dataProvider);
+                new \mtf\Excetions\ProviderDataException($this, $dataProvider);
             }
         }
         if ($depends) {

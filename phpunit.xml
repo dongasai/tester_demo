@@ -1,7 +1,0 @@
-<phpunit bootstrap="phpunit/boot.php">
-  <testsuites>
-    <testsuite name="money">
-      <directory>phpunit</directory>
-    </testsuite>
-  </testsuites>
-</phpunit>

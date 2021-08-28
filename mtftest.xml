@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mtftest
+        debug="true"
+>
+    <testsuites>
+        <testsuite name="DTest Unit">
+            <file>examples/DTest.php</file>
+            <file>examples/ATest.php</file>
+        </testsuite>
+
+    </testsuites>
+</mtftest>

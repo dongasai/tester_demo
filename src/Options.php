@@ -67,10 +67,17 @@ class Options
             Command::getWriter()->info("原始参数:", true);
             Helper::array2table($value);
         }
+        // 读取xml 配置项 configuration
+        $loadXml = new LoadXml(self::$configuration,$_SERVER['PWD']);
+        $xmlData = $loadXml->load();
+        if ($value['debug']) {
+            Command::getWriter()->info("XML读取的参数:", true);
+            Helper::array2table($xmlData);
+        }
         if (!empty($value['file'])) {
             $real = START_DIR . DIRECTORY_SEPARATOR . $value['file'];
             if (is_file($real)) {
-                self::$file = $real;
+                self::$file[] = $real;
             }
             if (is_dir($real)) {
 

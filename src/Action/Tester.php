@@ -8,6 +8,10 @@
 
 namespace mtf\Action;
 
+use Cassandra\Time;
+use mtf\Assert\Assert;
+use mtf\Framework\TestCase;
+
 /**
  * Description of Test
  *
@@ -23,9 +27,10 @@ class Tester extends Action
 
     public function run()
     {
+        \PHP_Timer::start();
         if (\mtf\Options::$pathCoverage) {
             $this->callAction(codeCoverage::class, [
-                \mtf\Options::$pathCoverage]);
+                \mtf\Options::$pathCoverage ]);
         }
 
         if (\mtf\Options::$dir) {
@@ -35,21 +40,26 @@ class Tester extends Action
         }
 
         if (\mtf\Options::$file) {
-            if (substr(\mtf\Options::$file, -8) === 'Test.php') {
-                $this->caseFiles[] = \mtf\Options::$file;
+            foreach (\mtf\Options::$file as $file){
+                if (substr($file, -8) === 'Test.php') {
+                    $this->caseFiles[] = $file;
+                }else{
+                    // 错误的文件
+                    throw new \Exception("文件$file 不和规范！ ");
+                }
             }
+
         }
 
 
-        // Resolve names
-//        $stmts = $nodeTraverser->traverse($stmts);
+        // 加载测试用例
         if ($this->caseFiles) {
-            // 运行测试用例
             $classOld = get_declared_classes();
             foreach ($this->caseFiles as $caseFile) {
                 $this->readFile($caseFile);
             }
         }
+        // 运行测试用例
         if ($this->caseClasss) {
             \mtf\Command::getWriter()->warn("可测试的用例:", true);
             \mtf\Helper::array2table($this->caseClasss);
@@ -67,13 +77,17 @@ class Tester extends Action
                     $poll->execute(new \mtf\Framework\Process(new \mtf\Framework\CaseRuner($caseClass), $t));
                 }
             }
-            $poll->wait(true, 1000);
+            $poll->wait(true, 100);
 //            dump($poll->getProcesses());
         }
+        $time = \PHP_Timer::stop();
+        \mtf\Command::getWriter()->info("测试总用时:".\PHP_Timer::secondsToTimeString($time),true);
+        \mtf\Command::getWriter()->info("断言总数量:".TestCase::$AssertCount,true);
     }
 
     /**
      * 读取文件
+     *
      * @param string $caseFile
      */
     private function readFile($caseFile)
@@ -87,11 +101,11 @@ class Tester extends Action
         $parser = (new \PhpParser\ParserFactory())->create(\PhpParser\ParserFactory::PREFER_PHP7);
         try {
             $Stmts = $parser->parse($code);
-            $asts = $nodeTraverser->traverse($Stmts);
+            $asts  = $nodeTraverser->traverse($Stmts);
             foreach ($asts as $ast) {
                 if ($ast instanceof \PhpParser\Node\Stmt\Class_) {
                     $className = $ast->name->toString();
-                    if ((new $className)instanceof \mtf\Framework\TestCase) {
+                    if ((new $className) instanceof \mtf\Framework\TestCase) {
                         $this->caseClasss[] = $className;
                     }
                 } elseif ($ast instanceof \PhpParser\Node\Stmt\Namespace_) {
@@ -116,6 +130,7 @@ class Tester extends Action
 
     /**
      * 读取文件夹,只选中测试文件 *Test.php
+     *
      * @param string $dir
      */
     private function readDir(string $dir)
@@ -148,8 +163,8 @@ class Tester extends Action
             throw new Exception("不存在的 Action 类");
         }
         call_user_func_array([
-            new $className($this->command),
-            'run'], $param_arr);
+                                 new $className($this->command),
+                                 'run' ], $param_arr);
     }
 
 }

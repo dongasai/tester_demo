@@ -5,10 +5,11 @@ namespace mtf\Framework;
 /**
  * Description of CaseRuner
  * 测试用例运行
+ *
  * @author dongasai
  */
 class CaseRuner
-        implements \Jenner\SimpleFork\Runnable
+    implements \Jenner\SimpleFork\Runnable
 {
 
     private $caseClasss;
@@ -16,12 +17,13 @@ class CaseRuner
     private $testFunc = [];
     /**
      *
-     * @var TestCase 
+     * @var TestCase
      */
     private $handle;
 
     public function __construct($caseClass)
     {
+
         $this->caseClasss = $caseClass;
     }
 
@@ -36,13 +38,13 @@ class CaseRuner
     }
 
     /**
-     * 运行测试测试用例们 
+     * 运行测试测试用例们
      */
     public function run()
     {
-        sleep(2);
+        \PHP_Timer::start();
+        usleep(1000 * 10);
         $caseClass = $this->caseClasss;
-
 
         // 前置方法
         $caseClass::setUpBeforeClass();
@@ -50,7 +52,7 @@ class CaseRuner
         // 正式运行
         $case = new $caseClass();
         if ($case instanceof TestCase) {
-            
+
         }
         $this->handle = $case;
         $me           = get_class_methods($case);
@@ -68,9 +70,16 @@ class CaseRuner
         // 后置方法
         // tearDownAfterClass
         $caseClass::tearDownAfterClass();
+        $time = \PHP_Timer::stop();
+        \mtf\Command::getWriter()->info("测试{$this->caseClasss}总用时:" . \PHP_Timer::secondsToTimeString($time),true);
+        \mtf\Command::getWriter()->info("测试{$this->caseClasss}断言总数量:" . TestCase::$AssertCount,true);
     }
 
-  
-    
+
+    public function __destruct()
+    {
+
+    }
+
 
 }

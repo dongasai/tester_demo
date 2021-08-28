@@ -58,7 +58,6 @@ class Comment
                 }
             }
         }
-        dump($this->options);
         return $this->options;
     }
 
