@@ -3,9 +3,14 @@
         debug="true"
         bootstrap="examples/boot.php"
 >
+    <dir>examples</dir>
     <testsuites>
-        <testsuite name="DTest Unit">
+        <testsuite name="DTestUnit">
             <file>examples/DTest.php</file>
+            <file>examples/ATest.php</file>
+        </testsuite>
+
+        <testsuite name="ATestUnit">
             <file>examples/ATest.php</file>
         </testsuite>
 

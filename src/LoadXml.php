@@ -8,7 +8,7 @@ namespace mtf;
 class LoadXml
 {
 
-    protected $xmlPath;
+    public $xmlPath;
 
     public function __construct($path, $PWD)
     {
@@ -22,15 +22,12 @@ class LoadXml
 
     public function load()
     {
-        dump($this->xmlPath);
         $dom = simplexml_load_file($this->xmlPath);
-
         return $this->dom2Array($dom);
     }
 
     private function dom2Array(\SimpleXMLElement $dom)
     {
-//        dump($dom);
         $array2 = get_object_vars($dom);
         $array  = $array2['@attributes'] ?? [];
         foreach ($array2 as $attr => $value) {
@@ -42,10 +39,7 @@ class LoadXml
             }else{
                 $array[$attr]  =$value;
             }
-
-
         }
-//        dump($array);
 
         return $array;
     }

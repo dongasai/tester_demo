@@ -8,9 +8,9 @@
 
 namespace mtf\Action;
 
-use Cassandra\Time;
 use mtf\Assert\Assert;
 use mtf\Framework\TestCase;
+use Prophecy\Exception\Doubler\ClassNotFoundException;
 
 /**
  * Description of Test
@@ -38,7 +38,7 @@ class Tester extends Action
             // 读取其中的 测试用例
             $this->readDir($dir);
         }
-
+        dd(\mtf\Options::$dir);
         if (\mtf\Options::$file) {
             foreach (\mtf\Options::$file as $file){
                 if (substr($file, -8) === 'Test.php') {
@@ -50,7 +50,7 @@ class Tester extends Action
             }
 
         }
-        dump($this->caseFiles);
+        dump($this->caseFiles);exit;
 
         // 加载测试用例
         if ($this->caseFiles) {
@@ -123,7 +123,7 @@ class Tester extends Action
                 }
             }
         } catch (\Exception $ex) {
-            echo "Parse error: {$error->getMessage()}\n";
+            echo "Parse error: {$ex->getMessage()}\n";
             exit;
         }
     }
@@ -160,7 +160,7 @@ class Tester extends Action
     private function callAction($className, $param_arr)
     {
         if (!class_exists($className)) {
-            throw new Exception("不存在的 Action 类");
+            throw new ClassNotFoundException("不存在的 Action 类");
         }
         call_user_func_array([
                                  new $className($this->command),
