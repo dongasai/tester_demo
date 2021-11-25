@@ -5,6 +5,7 @@ namespace mtf;
 /**
  * Description of Options
  * 配置项
+ *
  * @author dongasai
  */
 class Options
@@ -12,6 +13,7 @@ class Options
 
     private static $type = [
         'tmp'            => 'dir',
+        'dir'            => 'dir',
         'configuration'  => 'file',
         'bootstrap'      => 'file',
         'checkVersion'   => 'bool',
@@ -34,10 +36,12 @@ class Options
         'coveragePhp'    => 'dir',
         'coverageText'   => 'dir',
         'coverageXml'    => 'dir',
-        'xmlPath'    => 'file',
-        'testSuites'    => 'array',
-        'runSuites'    => 'array',
+        'xmlPath'        => 'file',
+        'testSuites'     => 'array',
+        'runSuites'      => 'array',
+        'display'        => 'Display'
     ];
+    public static  $i18n = 'zh-CN';
     /**
      * @var array 要测试的文件
      */
@@ -105,6 +109,10 @@ class Options
     public static $coverageXml;
 
     /**
+     * @var array 要运行的分组
+     */
+    public static $runGuoups;
+    /**
      * @var string 临时文件目
      */
     public static $tmp;
@@ -126,23 +134,24 @@ class Options
      */
     public static $runSuites;
 
+    /**
+     * 展示层
+     *
+     * @var string $display
+     */
+    public static $display = '';
 
     public function __construct($value)
     {
-        if ($value['debug']) {
-            Command::getWriter()->info("原始参数:", true);
-            dump($value);
-        }
+        $oldValue = $value;
+
         // 读取xml 配置项 configuration
-        $loadXml = new LoadXml(self::$configuration,$_SERVER['PWD']);
-        $xmlData = $loadXml->load();
+        $loadXml          = new LoadXml(self::$configuration, $_SERVER['PWD']);
+        $xmlData          = $loadXml->load();
         $value['xmlPath'] = $loadXml->xmlPath;
-        $xmlOption = new XmlOption($xmlData);
-        $value = $xmlOption->applyOption($value);
-        if ($value['debug']) {
-            Command::getWriter()->info("XML读取的参数:", true);
-            dump($xmlOption->config);
-        }
+        $xmlOption        = new XmlOption($xmlData);
+        $value            = $xmlOption->applyOption($value);
+
         if (!empty($value['file'])) {
             $real = START_DIR . DIRECTORY_SEPARATOR . $value['file'];
             if (is_file($real)) {
@@ -156,19 +165,45 @@ class Options
         unset($value['file']);
         foreach (self::$type as $key => $type) {
             $func       = 'validate' . ucwords($type);
-            $item = $value[$key]??$value[strtolower($key)];
+            $item       = $value[$key] ?? $value[strtolower($key)];
             self::$$key = $this->$func($item, $key);
         }
 
         $this->applyDefault();
+        //
         if (self::$debug) {
-            Command::getWriter()->warn("处理后参数:", true);
-            dump(self::getAllOption());
+            \mtf\Framework\Display::getDi()->text(\mtf\Framework\Display::LevelWarn,'当前已经开启调试模式，将展示更多的输出信息！');
+        }
+        if (self::$debug) {
+            \mtf\Framework\Display::getDi()->dump(
+                \mtf\Framework\Display::LevelDebug,
+                '输入的参数',
+                $oldValue
+            );
+        }
+
+        if (self::$debug) {
+            \mtf\Framework\Display::getDi()->dump(
+                \mtf\Framework\Display::LevelDebug,
+                'XML读取的参数',
+                $xmlOption->config
+            );
+        }
+
+
+        if (self::$debug) {
+            \mtf\Framework\Display::getDi()->dump(
+                \mtf\Framework\Display::LevelInfo,
+                '处理后参数',
+                self::getAllOption()
+            );
+
         }
     }
 
     /**
      * 获取所有的配置信息
+     *
      * @return array
      */
     public static function getAllOption(): array
@@ -180,6 +215,7 @@ class Options
         foreach (self::$type as $key => $type) {
             $arr[$key] = self::$$key;
         }
+
         return $arr;
     }
 
@@ -189,7 +225,7 @@ class Options
     private function applyDefault()
     {
         if (empty(self::$file) && empty(self::$dir)) {
-            self::$dir = START_DIR.'/unitTest';
+            self::$dir = START_DIR . '/unitTest';
         }
         $configFile = START_DIR . DIRECTORY_SEPARATOR . 'mtf.php';
         if (empty(self::$configuration) && is_file($configFile)) {
@@ -198,16 +234,19 @@ class Options
         if (empty(self::$tmp)) {
             self::$tmp = START_DIR . DIRECTORY_SEPARATOR . '.tmp';
         }
-        
+        if (empty(self::$display)) {
+            self::$display = \mtf\Display\View::class;
+        }
     }
-    
+
 
     /**
      * 验证是是否为文件
+     *
      * @param string $file
      * @param string $key
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function validateFile($file, $key)
     {
@@ -223,31 +262,35 @@ class Options
         if (!is_file($real)) {
             throw new \Exception("配置 $key 不是文件 $real ");
         }
+
         return $real;
     }
 
     /**
      * 验证是否为数组，并过滤
+     *
      * @param $array
      * @param string $key
      * @return array
      */
-    public function validateArray($array,$key)
+    public function validateArray($array, $key)
     {
-        if(empty($array)){
+        if (empty($array)) {
             return [];
         }
-        if(is_array($array)){
-            return  $array;
+        if (is_array($array)) {
+            return $array;
         }
-        return  [];
+
+        return [];
     }
 
     /**
      * 验证是否为文件夹
+     *
      * @param string $dir
      * @param string $key
-     * @throws Exception
+     * @throws \Exception
      */
     public function validateDir($dir, $key)
     {
@@ -256,20 +299,22 @@ class Options
         }
         if (substr($dir, 0, 1) == DIRECTORY_SEPARATOR) {
             $realDir = $dir;
-        }else{
+        } else {
             $realDir = START_DIR . DIRECTORY_SEPARATOR . $dir;
         }
 
         if (!is_dir($realDir)) {
             throw new \Exception("配置 $key 不是文件夹");
         }
+
         return $realDir;
     }
 
     /**
      * 转换为bool类型
+     *
      * @param bool $value
-     * @return type
+     * @return bool
      */
     public function validateBool($value)
     {
@@ -288,15 +333,31 @@ class Options
 
     /**
      * 转换为int类型
+     *
      * @param bool $value
-     * @return type
+     * @return int
      */
     public function validateInt($value, $key)
     {
         if (is_numeric($value)) {
-            return (int) $value;
+            return (int)$value;
         }
-        throw new Exception("配置项 $key 不是数字类型");
+        throw new \Exception("配置项 $key 不是数字类型");
+    }
+
+    /**
+     * 是否为展示层
+     *
+     * @param $value
+     * @param $key
+     */
+    public function validateDisplay($value, $key)
+    {
+        if (class_exists($value)) {
+            return $value;
+        }
+
+        return null;
     }
 
 }

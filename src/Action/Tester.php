@@ -9,6 +9,7 @@
 namespace mtf\Action;
 
 use mtf\Assert\Assert;
+use mtf\Framework\OperationMode;
 use mtf\Framework\TestCase;
 use Prophecy\Exception\Doubler\ClassNotFoundException;
 
@@ -22,7 +23,14 @@ class Tester extends Action
 
     private $caseFiles  = [
     ];
+
     private $caseClasss = [
+    ];
+
+    private $fileClassMap = [
+    ];
+
+    private $testSuites = [
     ];
 
     public function run()
@@ -38,7 +46,7 @@ class Tester extends Action
             // 读取其中的 测试用例
             $this->readDir($dir);
         }
-        dd(\mtf\Options::$dir);
+
         if (\mtf\Options::$file) {
             foreach (\mtf\Options::$file as $file){
                 if (substr($file, -8) === 'Test.php') {
@@ -50,40 +58,51 @@ class Tester extends Action
             }
 
         }
-        dump($this->caseFiles);exit;
+
 
         // 加载测试用例
+        $Mode = OperationMode::getMode();
         if ($this->caseFiles) {
-            $classOld = get_declared_classes();
             foreach ($this->caseFiles as $caseFile) {
                 $this->readFile($caseFile);
             }
         }
-        // 运行测试用例
+        dd($this->fileClassMap);
+
+        // 运行所有的测试用例
         if ($this->caseClasss) {
             \mtf\Command::getWriter()->warn("可测试的用例:", true);
             \mtf\Helper::array2table($this->caseClasss);
-            $threadCase = [];
-            foreach ($this->caseClasss as $class) {
-                $comment                                         = new \mtf\Framework\Comment($class, 'class');
-                $commentOption                                   = $comment->parse();
-                $thread                                          = $commentOption['thread'][0] ?? 0;
-                $threadCase[$thread % \mtf\Options::$parallel][] = $class;
-            }
-
-            $poll = new \mtf\Framework\Pool(\mtf\Options::$parallel);
-            foreach ($threadCase as $t => $caseS) {
-                foreach ($caseS as $caseClass) {
-                    $poll->execute(new \mtf\Framework\Process(new \mtf\Framework\CaseRuner($caseClass), $t));
-                }
-            }
-            $poll->wait(true, 100);
-//            dump($poll->getProcesses());
+            $this->runCaseClasss($this->caseClasss);
         }
         $time = \PHP_Timer::stop();
         \mtf\Command::getWriter()->info("测试总用时:".\PHP_Timer::secondsToTimeString($time),true);
         \mtf\Command::getWriter()->info("断言总数量:".TestCase::$AssertCount,true);
     }
+
+    /**
+     * 运行测试用例
+     * @param array $caseClasss
+     */
+    public function runCaseClasss($caseClasss)
+    {
+        $threadCase = [];
+        foreach ($caseClasss as $class) {
+            $comment                                         = new \mtf\Framework\Comment($class, 'class');
+            $commentOption                                   = $comment->parse();
+            $thread                                          = $commentOption['thread'][0] ?? 0;
+            $threadCase[$thread % \mtf\Options::$parallel][] = $class;
+        }
+
+        $poll = new \mtf\Framework\Pool(\mtf\Options::$parallel);
+        foreach ($threadCase as $t => $caseS) {
+            foreach ($caseS as $caseClass) {
+                $poll->execute(new \mtf\Framework\Process(new \mtf\Framework\CaseRuner($caseClass), $t));
+            }
+        }
+        $poll->wait(true, 100);
+    }
+
 
     /**
      * 读取文件
@@ -107,9 +126,11 @@ class Tester extends Action
                     $className = $ast->name->toString();
                     if ((new $className) instanceof \mtf\Framework\TestCase) {
                         $this->caseClasss[] = $className;
+                        $this->fileClassMap[$caseFile] = $className;
                     }
                 } elseif ($ast instanceof \PhpParser\Node\Stmt\Namespace_) {
                     $namespace = $ast->namespacedName;
+                    $this->fileClassMap[$caseFile] = [];
 
 //                            dump($ast->stmts);
                     foreach ($ast->stmts as $ast2) {
@@ -117,6 +138,7 @@ class Tester extends Action
                             $className = $ast2->namespacedName->toString();
                             if ((new $className) instanceof \mtf\Framework\TestCase) {
                                 $this->caseClasss[] = $className;
+                                $this->fileClassMap[$caseFile] = $className;
                             }
                         }
                     }
@@ -160,7 +182,7 @@ class Tester extends Action
     private function callAction($className, $param_arr)
     {
         if (!class_exists($className)) {
-            throw new ClassNotFoundException("不存在的 Action 类");
+            throw new ClassNotFoundException("不存在的 Action 类",$className);
         }
         call_user_func_array([
                                  new $className($this->command),
