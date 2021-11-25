@@ -17,6 +17,7 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
          dump(time());
     }
 }
+
 class JobRunner
         extends \Jenner\SimpleFork\Process
 {

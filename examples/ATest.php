@@ -87,7 +87,9 @@ class A6Test extends \mtf\Framework\TestCase
 }
 
 /**
- * @thread 7 运行于那个线程
+ * @thread 7
+ *
+ * 运行于那个线程
  */
 class A7Test extends \mtf\Framework\TestCase
 {

@@ -50,7 +50,7 @@ class Tester extends Action
             }
 
         }
-
+        dump($this->caseFiles);
 
         // 加载测试用例
         if ($this->caseFiles) {
