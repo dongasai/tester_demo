@@ -15,6 +15,9 @@
     "xml": [
       "./mtf --debug"
     ],
+    "suites": [
+      "./mtf --debug --testsuite DTestUnit"
+    ],
     "b": [
       "vendor/bin/phpunit "
     ],

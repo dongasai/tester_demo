@@ -27,6 +27,7 @@ class Command extends \Ahc\Cli\Input\Command
 //        intval($version);
         $this->argument('[file]', "要运行的测试文件或文件夹");
         $this->usageExample();
+        $this->testSelectionOptions();
         $this->testExecutionOptions();
         $this->coverageOption();
         $this->tool();

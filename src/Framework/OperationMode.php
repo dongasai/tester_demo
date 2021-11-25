@@ -41,7 +41,7 @@ class OperationMode
         if(Options::$file){
            return self::RUN_Files;
         }
-        if(Options::$runSuites){
+        if(Options::$testSuite){
             return self::RUN_Suites;
         }
         if(Options::$runSuites){

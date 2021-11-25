@@ -38,7 +38,7 @@ class Options
         'coverageXml'    => 'dir',
         'xmlPath'        => 'file',
         'testSuites'     => 'array',
-        'runSuites'      => 'array',
+        'testSuite'      => 'string',
         'display'        => 'Display'
     ];
     public static  $i18n = 'zh-CN';
@@ -132,7 +132,7 @@ class Options
     /**
      * @var array 运行的测试集合
      */
-    public static $runSuites;
+    public static $testSuite;
 
     /**
      * 展示层
@@ -283,6 +283,27 @@ class Options
         }
 
         return [];
+    }
+
+    /**
+     * 验证是否为数组，并过滤
+     *
+     * @param $array
+     * @param string $string
+     * @return array
+     */
+    public function validateString($string, $key)
+    {
+        if (empty($string)) {
+            return '';
+        }
+        if (is_string($string)) {
+            return $string;
+        }else{
+            throw new \Exception("配置 $key 不是字符串");
+        }
+
+        return '';
     }
 
     /**
