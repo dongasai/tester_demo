@@ -138,7 +138,7 @@ class Tester extends Action
                             $className = $ast2->namespacedName->toString();
                             if ((new $className) instanceof \mtf\Framework\TestCase) {
                                 $this->caseClasss[] = $className;
-                                $this->fileClassMap[$caseFile] = $className;
+                                $this->fileClassMap[$caseFile][] = $className;
                             }
                         }
                     }
