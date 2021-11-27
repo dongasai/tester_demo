@@ -6,6 +6,7 @@ networks:
 services:
   php:
     build: .
+    container_name: testerdemo_php_1
     image: tester:70
     privileged: false
     restart: unless-stopped

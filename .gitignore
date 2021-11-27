@@ -2,3 +2,4 @@ vendor/*
 /nbproject/private/
 /.tmp/*
 /.idea/*
+/ext/*

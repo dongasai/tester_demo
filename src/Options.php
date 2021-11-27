@@ -2,6 +2,8 @@
 
 namespace mtf;
 
+use TypeExtension\Single\Dir;
+
 /**
  * Description of Options
  * 配置项
@@ -172,7 +174,7 @@ class Options
         $this->applyDefault();
         //
         if (self::$debug) {
-            \mtf\Framework\Display::getDi()->text(\mtf\Framework\Display::LevelWarn,'当前已经开启调试模式，将展示更多的输出信息！');
+            \mtf\Framework\Display::getDi()->text(\mtf\Framework\Display::LevelWarn, '当前已经开启调试模式，将展示更多的输出信息！');
         }
         if (self::$debug) {
             \mtf\Framework\Display::getDi()->dump(
@@ -225,7 +227,7 @@ class Options
     private function applyDefault()
     {
         if (empty(self::$file) && empty(self::$dir)) {
-            self::$dir = START_DIR . '/unitTest';
+            self::$dir = START_DIR;
         }
         $configFile = START_DIR . DIRECTORY_SEPARATOR . 'mtf.php';
         if (empty(self::$configuration) && is_file($configFile)) {
@@ -299,7 +301,7 @@ class Options
         }
         if (is_string($string)) {
             return $string;
-        }else{
+        } else {
             throw new \Exception("配置 $key 不是字符串");
         }
 
@@ -379,6 +381,16 @@ class Options
         }
 
         return null;
+    }
+
+    /**
+     * 获取文件夹位置
+     * @return Dir
+     * @throws \Exception
+     */
+    static public function getDir(): Dir
+    {
+        return new Dir(self::$dir);
     }
 
 }

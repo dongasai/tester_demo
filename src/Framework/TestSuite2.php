@@ -520,7 +520,7 @@ class TestSuite2 implements IteratorAggregate, Reorderable, SelfDescribing, Test
     }
 
     /**
-     * Wrapper for addTestFile() that adds multiple test files.
+     * Wrapper for addTestFile() that adds Multiple test files.
      *
      * @throws Exception
      */

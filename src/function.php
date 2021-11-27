@@ -33,3 +33,12 @@ function dump()
         VarDumper::dump($v);
     }
 }
+
+/**
+ * 谁秒多少秒，支持小数
+ * @param float $s 秒数
+ */
+function sleepms($seconds = 1.1)
+{
+    usleep($seconds * 1000000);
+}

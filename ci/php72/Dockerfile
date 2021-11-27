@@ -15,7 +15,7 @@ RUN echo "deb http://mirrors.163.com/debian/ buster main non-free contrib" > /et
     echo "deb-src http://mirrors.163.com/debian-security/ buster/updates main non-free contrib " >> /etc/apt/sources.list
 
 RUN apt-get update
-RUN apt-get install -y vim wget zip zlib1g-dev
+RUN apt-get install -y vim wget zip zlib1g-dev git
 
 RUN docker-php-ext-install bcmath mbstring pdo pdo_mysql zip;docker-php-ext-enable pdo pdo_mysql;
 
