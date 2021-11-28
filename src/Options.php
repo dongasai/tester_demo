@@ -132,7 +132,7 @@ class Options
      */
     public static $testSuites;
     /**
-     * @var array 运行的测试集合
+     * @var string 运行的测试集合
      */
     public static $testSuite;
 
