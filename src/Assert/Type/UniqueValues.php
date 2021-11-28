@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace mtf\Assert\Type;
 
 /**
@@ -9,8 +9,11 @@ namespace mtf\Assert\Type;
  */
 class UniqueValues extends \mtf\Framework\Constraint
 {
+
     public function assertions($value, $message = null): bool
     {
         \Webmozart\Assert\Assert::uniqueValues($value, $this->getMessage($message));
+        return true;
     }
+
 }

@@ -14,6 +14,18 @@ use ReflectionClass;
 class ClassHasStaticAttribute extends \mtf\Framework\Constraint
 {
 
+    public function assertions($value, $message = null): bool
+    {
+        if (!$this->matches($value)) {
+            Assert::reportInvalidArgumenta(\sprintf(
+                                               $message ?: 'Expected the Static Attribute %s to exist.',
+                                               Assert::valueToString($value)
+                                           ));
+        }
+
+        return true;
+    }
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -33,17 +45,6 @@ class ClassHasStaticAttribute extends \mtf\Framework\Constraint
         }
 
         return false;
-    }
-
-    public function assertions($value, $message = null): bool
-    {
-        if (!$this->matches($value)) {
-            Assert::reportInvalidArgumenta(\sprintf(
-                            $message ?: 'Expected the Static Attribute %s to exist.',
-                            Assert::valueToString($value)
-            ));
-        }
-        return true;
     }
 
 }

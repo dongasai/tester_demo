@@ -13,7 +13,7 @@ class Comment
     private $string;
     private $options;
 
-    public function __construct($name, $type)
+    public function __construct($name, $type ='class')
     {
         if ($type === 'class') {
             $r            = new \ReflectionClass($name);
@@ -110,8 +110,7 @@ class Comment
     {
         $array                   = explode(' ', $string);
         $this->options['thread'] = array_shift($array);
-
-        return $re;
+        return $this;
     }
     /**
      * 获取重复执行次数

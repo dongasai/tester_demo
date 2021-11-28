@@ -29,9 +29,10 @@ class DTest extends \mtf\Framework\TestCase
      */
     public function testA()
     {
-        dump(__CLASS__,__FUNCTION__);
-        $actual= 1;
-        $this->assertEquals(1, $actual);
+        $actual= 52;
+        $this->assertEquals(52, $actual);
+        sleepms(mt_rand(10,40)/10);
+        $this->assertGreaterThan(1, $actual);
     }
 
 }

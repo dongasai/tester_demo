@@ -10,7 +10,9 @@ namespace mtf\Action;
 
 use mtf\Assert\Assert;
 use mtf\Command;
+use mtf\Framework\Cache;
 use mtf\Framework\Comment;
+use mtf\Framework\Display;
 use mtf\Framework\OperationMode;
 use mtf\Framework\Pool;
 use mtf\Framework\Process;
@@ -84,44 +86,56 @@ class Tester extends Action
                 $this->readFile($caseFile);
             }
         }
-        foreach (range(1, 100) as $item) {
-            echo " 进度 $item % \r";
-            sleepms(0.01);
-        }
+        dump($this->fileClassMap);
         // 处理 用例组合 test Suites
         TestSuite::callOptions($this);
-        dd($this->testSuites);
+        switch ($Mode){
+            case OperationMode::ALL:
+                // 运行所有的测试用例
+                if ($this->caseClasss) {
+                    Display::getDi()->dump(Display::LevelDebug,'可测试的用例',$this->caseClasss);
+                    $this->runCaseClasss($this->caseClasss);
+                }
+                break;
+            case OperationMode::RUN_Suites:
+                // 运行用例组合
+                /**
+                 * @var TestSuite $runSuite
+                 */
+                $runSuite = $this->testSuites[Options::$testSuite]??null;
 
-        // 运行所有的测试用例
-        if ($this->caseClasss) {
-            Command::getWriter()->warn("可测试的用例:", true);
-            Helper::array2table($this->caseClasss);
-            $this->runCaseClasss($this->caseClasss);
+                if($runSuite){
+                    Display::getDi()->dump(Display::LevelDebug,'可测试的用例',$runSuite->getList());
+                    $this->runCaseClasss($runSuite->getList());
+                }
+
         }
+
         $time = PHP_Timer::stop();
-        Command::getWriter()->info("测试总用时:" . PHP_Timer::secondsToTimeString($time), true);
-        Command::getWriter()->info("断言总数量:" . TestCase::$AssertCount, true);
+        Command::getWriter()->info("\n \n \n测试用时:" . PHP_Timer::secondsToTimeString(Cache::getRunTime()), true);
+        Command::getWriter()->info("运行用时:" . PHP_Timer::secondsToTimeString($time), true);
+        Command::getWriter()->info("断言总量:" . Cache::getAssertCount(), true);
     }
 
     /**
      * 运行测试用例
      *
-     * @param array $caseClasss
+     * @param CName[] $caseClasss
      */
     public function runCaseClasss($caseClasss)
     {
         $threadCase = [];
-        foreach ($caseClasss as $class) {
-            $comment                                    = new Comment($class, 'class');
+        foreach ($caseClasss as $CName) {
+            $comment                                    = new Comment($CName, 'class');
             $commentOption                              = $comment->parse();
             $thread                                     = $commentOption['thread'][0] ?? 0;
-            $threadCase[$thread % Options::$parallel][] = $class;
+            $threadCase[$thread % Options::$parallel][] = $CName;
         }
 
         $poll = new Pool(Options::$parallel);
         foreach ($threadCase as $t => $caseS) {
-            foreach ($caseS as $caseClass) {
-                $poll->execute(new Process(new \mtf\Framework\CaseRuner($caseClass), $t));
+            foreach ($caseS as $case2) {
+                $poll->execute(new Process(new \mtf\Framework\CaseRuner($case2), $t));
             }
         }
         $poll->wait(true, 100);
@@ -145,24 +159,28 @@ class Tester extends Action
         try {
             $Stmts = $parser->parse($code);
             $asts  = $nodeTraverser->traverse($Stmts);
+
             foreach ($asts as $ast) {
+
                 if ($ast instanceof Class_) {
                     $className = $ast->name->toString();
+
                     if ((new $className) instanceof TestCase) {
-                        $this->caseClasss[]            = $className;
-                        $this->fileClassMap[$caseFile] = $className;
+                        $this->caseClasss[]            = new CName($className);
+                        $this->fileClassMap[$caseFile][] = new CName($className);
+                    }else{
+                        Display::getDi()->text(Display::LevelDebug,"类 $className 跳过 ");
                     }
                 } elseif ($ast instanceof Namespace_) {
                     $namespace                     = $ast->namespacedName;
                     $this->fileClassMap[$caseFile] = [];
 
-//                            dump($ast->stmts);
                     foreach ($ast->stmts as $ast2) {
                         if ($ast2 instanceof Class_) {
                             $className = $ast2->namespacedName->toString();
                             if ((new $className) instanceof TestCase) {
-                                $this->caseClasss[]              = $className;
-                                $this->fileClassMap[$caseFile][] = $className;
+                                $this->caseClasss[]              = new CName($className);
+                                $this->fileClassMap[$caseFile][] = new CName($className);
                             }
                         }
                     }
@@ -244,6 +262,15 @@ class Tester extends Action
         }
 
         return $cnams;
+    }
+
+
+    /**
+     * 析构函数
+     */
+    public function __destruct()
+    {
+
     }
 
 }

@@ -2,6 +2,8 @@
 
 namespace mtf\Framework;
 
+use TypeExtension\Single\CName;
+
 /**
  * Description of CaseRuner
  * 测试用例运行
@@ -21,10 +23,10 @@ class CaseRuner
      */
     private $handle;
 
-    public function __construct($caseClass)
+    public function __construct(CName $caseClass)
     {
 
-        $this->caseClasss = $caseClass;
+        $this->caseClasss = $caseClass->getName();
     }
 
     public function getCaseClasss()
@@ -71,15 +73,15 @@ class CaseRuner
         // tearDownAfterClass
         $caseClass::tearDownAfterClass();
         $time = \PHP_Timer::stop();
-        \mtf\Command::getWriter()->info("测试{$this->caseClasss}总用时:" . \PHP_Timer::secondsToTimeString($time),true);
-        \mtf\Command::getWriter()->info("测试{$this->caseClasss}断言总数量:" . TestCase::$AssertCount,true);
+        Cache::incRuntime($time);
+        Cache::incAssertCount(TestCase::$AssertCount);
+
+        \mtf\Command::getWriter()->info("测试{$this->caseClasss}总用时:" . \PHP_Timer::secondsToTimeString($time), true);
+        \mtf\Command::getWriter()->info("测试{$this->caseClasss}断言总数量:" . TestCase::$AssertCount, true);
     }
 
 
-    public function __destruct()
-    {
 
-    }
 
 
 }

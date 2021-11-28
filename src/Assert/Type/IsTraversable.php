@@ -4,6 +4,7 @@ namespace mtf\Assert\Type;
 
 /**
  * Description of IsTraversable
+ *
  * @deprecated use "isIterable" or "isInstanceOf" instead
  * @author dongasai
  */
@@ -15,6 +16,7 @@ class IsTraversable extends \mtf\Framework\Constraint
     public function assertions($value, $message = null): bool
     {
         \Webmozart\Assert\Assert::isTraversable($value, $this->getMessage($message));
+        return true;
     }
 
 }

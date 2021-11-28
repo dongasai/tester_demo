@@ -9,8 +9,11 @@ namespace mtf\Assert\Type;
  */
 class NotInstanceOf extends \mtf\Framework\Constraint
 {
+
     public function assertions($value, $message = null): bool
     {
-        \Webmozart\Assert\Assert::notInstanceOf($value, $this->expected,$this->getMessage($message));
+        \Webmozart\Assert\Assert::notInstanceOf($value, $this->expected, $this->getMessage($message));
+        return true;
     }
+
 }

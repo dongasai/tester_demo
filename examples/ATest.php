@@ -111,5 +111,6 @@ class A8Test extends \mtf\Framework\TestCase
     {
         echo __CLASS__."\r\n";
         sleep(2);
+        self::assertEquals(1,1);
     }
 }

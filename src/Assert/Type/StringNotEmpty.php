@@ -9,18 +9,15 @@ namespace mtf\Assert\Type;
  */
 class StringNotEmpty extends \mtf\Framework\Constraint
 {
-    
+
     protected $defaultMessage = '期望是`字符串`，切不为空，结果是：%s';
 
     public function assertions($value, $message = null): bool
     {
 
         \Webmozart\Assert\Assert::stringNotEmpty($value, $this->getMessage($message));
+        return true;
     }
 
-    public function toString(): string
-    {
-        ;
-    }
 
 }

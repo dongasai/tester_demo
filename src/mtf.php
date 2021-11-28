@@ -7,9 +7,10 @@ include_once 'function.php';
 define('START_DIR', $_SERVER['PWD']);
 define('START_TIME', time());
 
+define('RUN_UN', uniqid());
 
-foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php',
- __DIR__ . '/vendor/autoload.php') as $file) {
+foreach (array( __DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php',
+                __DIR__ . '/vendor/autoload.php' ) as $file) {
     if (file_exists($file)) {
         define('COMPOSER_AUTOLOAD_FILE', $file);
         require_once $file;
@@ -19,10 +20,10 @@ foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.p
 if (!defined('COMPOSER_AUTOLOAD_FILE')) {
     // 未找到 自动加载
     fwrite(
-            STDERR,
-            'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
-            '    composer install' . PHP_EOL . PHP_EOL .
-            'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
+        STDERR,
+        'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
+        '    composer install' . PHP_EOL . PHP_EOL .
+        'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
     );
     die(1);
 }
@@ -33,3 +34,5 @@ $command->parse($_SERVER['argv']);
 
 
 (new mtf\Action\Tester($command))->run();
+\mtf\Framework\Cache::reset();
+dump(\mtf\Framework\Cache::getRunTime());

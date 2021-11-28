@@ -47,6 +47,7 @@ class TestSuite
             foreach ($testSuite['file'] as $f) {
                 $file = Path::getRealPath($dir, $f);
                 $cs   = $tester->getFileCase($file);
+                dump($cs,$name);
                 foreach ($cs as $cname) {
                     $Suite->addCase($cname);
                 }
@@ -62,7 +63,7 @@ class TestSuite
      */
     public function addCase(CName $class)
     {
-        $this->list[] = $class->getName();
+        $this->list[] = $class;
     }
 
     public function getName()
@@ -70,6 +71,9 @@ class TestSuite
         return $this->name;
     }
 
+    /**
+     * @return CName[]
+     */
     public function getList()
     {
         return $this->list;

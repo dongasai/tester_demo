@@ -32,6 +32,20 @@ trait Assert
     }
 
     /**
+     * @param $expected
+     * @param $actual
+     * @param string $message
+     */
+    public static function assertGreaterThan($expected, $actual, string $message = '')
+    {
+        $constraint = new \mtf\Assert\Comparison\GreaterThan($expected);
+
+        static::assertThat($actual, $constraint, $message);
+    }
+
+    //
+
+    /**
      * 断言数组中存在指定的key
      * @param mixed $key
      * @param array $array

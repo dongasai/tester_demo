@@ -25,12 +25,6 @@
       "vendor/bin/tester -C --colors 1 --setup tester/setup.php tester"
     ]
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://gitee.com/yingchaophp/type-extension.git"
-    }
-  ],
   "require": {
     "php": "^7.0",
     "ext-pcntl": "*",
