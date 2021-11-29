@@ -56,6 +56,7 @@ abstract class TestCase
         $depends      = $options->getDepends();
         $provider     = null;
         $dependData   = null;
+        // 数据
         if ($dataProvider) {
             if (!method_exists($this, $dataProvider)) {
                 new \mtf\Excetions\DataProviderFileNotFoundExcetion($this, $func, $dataProvider);

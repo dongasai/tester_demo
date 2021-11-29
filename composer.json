@@ -16,7 +16,7 @@
       "./mtf --debug"
     ],
     "suites": [
-      "./mtf --debug --testsuite DTestUnit"
+      "./mtf --debug --testsuite ATestUnit"
     ],
     "b": [
       "vendor/bin/phpunit "

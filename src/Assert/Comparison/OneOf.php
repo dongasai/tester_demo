@@ -10,7 +10,7 @@ namespace mtf\Assert\Comparison;
 class OneOf extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::oneOf($value, $this->expected, $this->getMessage($message));
         return true;

@@ -10,11 +10,28 @@ use mtf\Framework\Result\AssertionFailedError;
 abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstraint
 {
 
+    /**
+     * @var string 默认消息
+     */
     protected $defaultMessage = '';
+
+    /**
+     * 约束值
+     * @var null
+     */
     protected $expected = null;
+
+    /**
+     *
+     * @var string 消息
+     */
     protected $message = '';
 
-    public function __construct($expected)
+    /**
+     * 构造函数
+     * @param null $expected
+     */
+    public function __construct($expected = null)
     {
         $this->expected = $expected;
     }
@@ -26,7 +43,7 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
      */
     public function getMessage($message = null)
     {
-        if (is_null($message)) {
+        if (empty($message)) {
             return $this->defaultMessage;
         }
         return $message;
@@ -39,7 +56,8 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
     public function evaluate($value, string $message = null)
     {
         try {
-             $this->assertions($value, $message);
+             $this->
+             assertions($value, $message);
         } catch (\InvalidArgumentException $InvalidArgumentException) {
 
             dump($InvalidArgumentException);

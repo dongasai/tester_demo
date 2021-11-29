@@ -64,7 +64,7 @@ class Cache
 
     static public function incRuntime($time)
     {
-        return self::inc(self::KEY_RUN_TIME, $time * 1000);
+        return self::inc(self::KEY_RUN_TIME, (int)($time * 1000));
     }
 
     static public function getRunTime()

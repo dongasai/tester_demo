@@ -11,7 +11,7 @@ namespace mtf\Assert\String;
 class UnicodeLetters extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::unicodeLetters($value, $this->getMessage($message));
         return true;

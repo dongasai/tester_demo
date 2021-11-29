@@ -3,13 +3,14 @@
 namespace mtf\Assert\Arr;
 
 use mtf\Util\InvalidArgumentHelper;
+use mtf\Util\Type;
 use Webmozart\Assert\Assert;
 
 /**
  * 属性的类型都是同一个类型
  *
  */
-class ContainsOnly extends \mtf\Framework\Constraint
+class ContainsOnlyInOf extends \mtf\Framework\Constraint
 {
 
     /**
@@ -18,9 +19,9 @@ class ContainsOnly extends \mtf\Framework\Constraint
      * @param string $value
      * @param null $message
      * @return bool
-     * @throws \mtf\Excetions\Exception
+     * @throws \InvalidArgumentException
      */
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         if (!\is_array($value) &&
             !(\is_object($value) && $value instanceof \Traversable)) {
@@ -32,9 +33,22 @@ class ContainsOnly extends \mtf\Framework\Constraint
 
         $message = $this->getMessage($message);
 
-        $func    = 'all' . ucfirst($this->expected);
+        foreach ($value as $item) {
 
-        Assert::$func($value, $message);
+            if ($item instanceof $this->expected) {
+
+            } else {
+                // 不是指定的类
+                $msg = sprintf(
+                         $message ?: 'Expected a value to contain %2$s. Got: %s',
+                         Type::typeToString($item),
+                         $this->expected
+                     );
+
+                InvalidArgumentHelper::reportInvalidArgument($msg);
+            }
+
+        }
 
         return true;
     }

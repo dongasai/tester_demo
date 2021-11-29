@@ -11,7 +11,7 @@ namespace mtf\Assert\Arr;
 class IsNonEmptyList extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isNonEmptyList($value, $this->getMessage($message));
         return true;

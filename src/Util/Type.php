@@ -1,20 +1,23 @@
 <?php
-/*
- * This file is part of PHPUnit.
- *
- * (c) Sebastian Bergmann <sebastian@phpunit.de>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
-namespace PHPUnit\Util;
+namespace mtf\Util;
 
 /**
- * Utility class for textual type (and value) representation.
+ *
  */
 class Type
 {
+
+    /**
+     * @param mixed $value
+     *
+     * @return string
+     */
+    static public function typeToString($value)
+    {
+        return \is_object($value) ? \get_class($value) : \gettype($value);
+    }
+
     /**
      * @param string $type
      *
@@ -40,4 +43,5 @@ class Type
             ]
         );
     }
+
 }

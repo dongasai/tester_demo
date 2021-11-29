@@ -12,16 +12,22 @@
  * @author Administrator
  */
 class ATest
-        extends \PHPUnit\Framework\TestCase
+    extends \PHPUnit\Framework\TestCase
 {
 
     public function testA()
     {
         $actual = 0;
         $this->assertEquals(0, $actual);
-                $this->assertClassHasStaticAttribute('foo', stdClass::class);
+        $this->assertContains('foo', stdClass::class);
 
-        
+        $this->assertContainsOnly('string', ['1', '2']);
+        $this->assertEqualsCanonicalizing([3, 2, 1], [2, 3, 1]);
+        $this->assertEqualsWithDelta(1.0, 1.5, 0.1);
+        $this->assertFileIsReadable('/path/to/file');
+        $this->assertInfinite(1);
+
+
     }
 
 }

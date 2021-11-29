@@ -12,7 +12,7 @@ class Integerish extends \mtf\Framework\Constraint
 
     protected $defaultMessage = '期望是整数. 结果: %s';
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
 
         \Webmozart\Assert\Assert::integerish($value, $this->getMessage($message));

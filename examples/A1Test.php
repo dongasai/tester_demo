@@ -8,7 +8,7 @@
  * @thread 1 运行于那个线程
  * @author dongasai
  */
-class ATest extends \mtf\Framework\TestCase
+class A1Test extends \mtf\Framework\TestCase
 {
 
     public function testA()

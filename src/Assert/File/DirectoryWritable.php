@@ -8,13 +8,13 @@ namespace mtf\Assert\File;
  *
  * @author dongasai
  */
-class DirectoryReadable extends \mtf\Framework\Constraint
+class DirectoryWritable extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::directory($value, $this->getMessage($message));
-        \Webmozart\Assert\Assert::readable($value, $this->getMessage($message));
+        \Webmozart\Assert\Assert::writable($value, $this->getMessage($message));
 
         return true;
     }
@@ -27,7 +27,7 @@ class DirectoryReadable extends \mtf\Framework\Constraint
      */
     public function count(): int
     {
-        // 文件夹，可读
+        // 文件夹，可写
         return 2;
     }
 

@@ -12,7 +12,7 @@ class Boolean extends \mtf\Framework\Constraint
 
     protected $defaultMessage = '期望是一个`布尔型`. 结果: %s';
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::boolean($value, $this->getMessage($message));
         return true;

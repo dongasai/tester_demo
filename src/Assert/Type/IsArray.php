@@ -12,7 +12,7 @@ class IsArray extends \mtf\Framework\Constraint
 
     protected $defaultMessage = '期望是一个数组. 结果是: %s';
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isArray($value, $this->getMessage($message));
     }

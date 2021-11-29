@@ -86,7 +86,6 @@ class Tester extends Action
                 $this->readFile($caseFile);
             }
         }
-        dump($this->fileClassMap);
         // 处理 用例组合 test Suites
         TestSuite::callOptions($this);
         switch ($Mode){

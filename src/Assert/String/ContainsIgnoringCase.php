@@ -2,19 +2,36 @@
 
 namespace mtf\Assert\String;
 
+use Webmozart\Assert\Assert;
+
 /**
  * Description of Contains
- * 检查字符串是否包含子字符串
+ * 检查字符串是否包含子字符串,不区分大小写
  *
  * @author dongasai
  */
-class Contains extends \mtf\Framework\Constraint
+class ContainsIgnoringCase extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    /**
+     * 断言
+     * @param string $value
+     * @param string $message
+     * @return bool
+     */
+    public function assertions($value, $message = ''): bool
     {
-        \Webmozart\Assert\Assert::contains($value, $this->expected, $this->getMessage($message));
+        $message = $this->getMessage($message);
+        if (false === \stripos($value, $this->expected)) {
+            Assert::reportInvalidArgument(\sprintf(
+                                              $message ?: 'Expected a value to contain %2$s. Got: %s',
+                                              Assert::valueToString($value),
+                                              Assert::valueToString($this->expected)
+                                          ));
+        }
+
         return true;
     }
+
 
 }

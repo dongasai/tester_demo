@@ -10,7 +10,7 @@ namespace mtf\Assert\Comparison;
 class NotFalse extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::notFalse($value, $this->getMessage($message));
         return true;
