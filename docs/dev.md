@@ -37,19 +37,22 @@ composer suites
 ```
 
 # commit 
-
+> 格式
+```
+<type>(<scope>): <subject>
+```
 commitizen
 npm install -g commitizen cz-conventional-changelog
-
-* feat:     新功能
-* fix:      BUG修正
-* docs:     仅文档修改
-* style:    不影响代码含义的更改（空白、格式、缺少分号等）
-* refactor: 既不修复bug也不添加功能的代码更改
-* perf:     提高性能的代码更改
-* test:     添加缺失的测试或更正现有测试
-* build:    影响生成系统或外部依赖项的更改（示例范围：composer、Docker、Docker compose）
+## Type
+* feat 新功能:     新功能
+* fix  修正:      BUG修正
+* docs 文档:     仅文档修改
+* style 格式:    不影响代码含义的更改（空白、格式、缺少分号等）
+* refactor 更改: 既不修复bug也不添加功能的代码更改
+* perf 性能:    提高性能的代码更改
+* test 测试:     添加缺失的测试或更正现有测试
+* build 构建:    影响生成系统或外部依赖项的更改（示例范围：composer、Docker、Docker compose）
 * ci:       对CI配置文件和脚本的更改（示例范围：Travis、Circle、BrowserStack、SauceLabs）
-* chore:    不修改src或测试文件的其他更改
-* revert:   恢复以前的提交
+* chore 其他:    不修改src或测试文件的其他更改
+* revert 恢复:   恢复以前的提交
 
