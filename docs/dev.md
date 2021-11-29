@@ -36,3 +36,9 @@ composer suites
 
 ```
 
+# commit 
+
+commitizen
+npm install -g commitizen cz-conventional-changelog
+
+
