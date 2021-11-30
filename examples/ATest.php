@@ -50,10 +50,22 @@ class ATest extends \mtf\Framework\TestCase
         $this->assertFileEquals('/var/www/html/README.md', '/var/www/html/README.md');
         // 文件存在
         $this->assertFileExists('/var/www/html/README.md');
-        // INF 判断
+        // INF 判断（无限大）
         $this->assertInfinite(log(0));
-
-
+        // 实例类型
+        $this->assertInstanceOf(ATest1::class,new ATest1());
+        // assertIsArray
+        $this->assertIsArray([1]);
+        // assertIsBool
+        $this->assertIsBool(true);
+        // assertIsCallable
+        $this->assertIsCallable(function(){
+            return 1;
+        });
+        // assertIsFloat
+        $this->assertIsFloat(1.2);
+        // assertIsInt
+        $this->assertIsInt(1);
         foreach (range(1, 4) as $item) {
             self::assertLessThanOrEqual(5, $item);
         }

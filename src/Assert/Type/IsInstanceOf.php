@@ -4,7 +4,7 @@ namespace mtf\Assert\Type;
 
 /**
  * Description of IsInstanceOf
- *
+ * 对象类型断言
  * @author dongasai
  */
 class IsInstanceOf extends \mtf\Framework\Constraint

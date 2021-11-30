@@ -7,7 +7,7 @@ namespace mtf\Assert\Type;
  *
  * @author dongasai
  */
-class Boolean extends \mtf\Framework\Constraint
+class IsBoolean extends \mtf\Framework\Constraint
 {
 
     protected $defaultMessage = '期望是一个`布尔型`. 结果: %s';

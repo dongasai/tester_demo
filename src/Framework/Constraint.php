@@ -1,6 +1,7 @@
 <?php
 
 namespace mtf\Framework;
+
 use mtf\Framework\Result\AssertionFailedError;
 /**
  * Class Constraint InterfaceConstraint

@@ -2,7 +2,6 @@
 
 namespace mtf\Traits;
 
-use http\Encoding\Stream\Inflate;
 use mtf\Assert\Arr\ContainsOnly;
 use mtf\Assert\Arr\ContainsOnlyInOf;
 use mtf\Assert\Arr\Count;
@@ -18,7 +17,13 @@ use mtf\Assert\File\Readable;
 use mtf\Assert\File\Writable;
 use mtf\Assert\String\Contains;
 use mtf\Assert\String\ContainsIgnoringCase;
+use mtf\Assert\Type\Boolean;
+use mtf\Assert\Type\Float;
 use mtf\Assert\Type\Infinite;
+use mtf\Assert\Type\IsArray;
+use mtf\Assert\Type\IsCallable;
+use mtf\Assert\Type\IsFloat;
+use mtf\Assert\Type\IsString;
 use mtf\Excetions\InvalidArgumentException;
 use mtf\Framework\Constraint;
 
@@ -463,9 +468,80 @@ trait Assert
         static::assertThat($path, $constraint, $message);
     }
 
+    /**
+     * 是无限大数
+     * @param $value
+     * @param string $message
+     */
     static public function assertInfinite($value, string $message = '')
     {
         $constraint = new Infinite();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * @param string $expected
+     * @param $actual
+     * @param string $message
+     */
+    static public function assertInstanceOf(string $expected, $actual, string $message = '')
+    {
+        $constraint = new \mtf\Assert\Type\IsInstanceOf($expected);
+        static::assertThat($actual, $constraint, $message);
+    }
+
+    /**
+     * 是数组类型
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsArray($value, string $message = '')
+    {
+        $constraint = new IsArray();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 是布尔类型
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsBool($value, string $message = '')
+    {
+        $constraint = new Boolean();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 是 可调用结构
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsCallable($value, string $message = '')
+    {
+        $constraint = new IsCallable();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 浮点类型
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsFloat($value, string $message = '')
+    {
+        $constraint = new IsFloat();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 数字整形
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsInt($value, string $message = '')
+    {
+        $constraint = new IsIn();
         static::assertThat($value, $constraint, $message);
     }
 
