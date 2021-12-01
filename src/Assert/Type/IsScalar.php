@@ -4,7 +4,7 @@ namespace mtf\Assert\Type;
 
 /**
  * Description of Scalar
- *
+ * 标量类型
  * @author dongasai
  */
 class Scalar extends \mtf\Framework\Constraint

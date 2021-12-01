@@ -7,7 +7,7 @@ namespace mtf\Assert\Type;
  *
  * @author dongasai
  */
-class Object extends \mtf\Framework\Constraint
+class IsObject extends \mtf\Framework\Constraint
 {
 
     protected $defaultMessage = '期望是个对象。结果是: %s';
