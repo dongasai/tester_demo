@@ -4,7 +4,7 @@ namespace mtf\Assert\Type;
 
 /**
  * Description of Numeric
- *
+ * 数字
  * @author dongasai
  */
 class Numeric extends \mtf\Framework\Constraint
@@ -15,6 +15,7 @@ class Numeric extends \mtf\Framework\Constraint
     public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::numeric($value, $this->getMessage($message));
+
         return true;
     }
 

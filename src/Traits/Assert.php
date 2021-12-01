@@ -18,14 +18,21 @@ use mtf\Assert\File\Writable;
 use mtf\Assert\String\Contains;
 use mtf\Assert\String\ContainsIgnoringCase;
 use mtf\Assert\Type\Boolean;
-use mtf\Assert\Type\Float;
 use mtf\Assert\Type\Infinite;
 use mtf\Assert\Type\IsArray;
+use mtf\Assert\Type\IsBoolean;
 use mtf\Assert\Type\IsCallable;
 use mtf\Assert\Type\IsFloat;
+use mtf\Assert\Type\IsInt;
+use mtf\Assert\Type\IsIterable;
+use mtf\Assert\Type\IsObject;
+use mtf\Assert\Type\IsResource;
 use mtf\Assert\Type\IsString;
+use mtf\Assert\Type\Numeric;
+use mtf\Assert\Type\IsScalar;
 use mtf\Excetions\InvalidArgumentException;
 use mtf\Framework\Constraint;
+use PHPUnit\Framework\Constraint\IsReadable;
 
 /**
  * Trait Assert
@@ -374,7 +381,7 @@ trait Assert
      */
     public static function assertResource($actual, $expected = null, string $message = '')
     {
-        $constraint = new \mtf\Assert\Type\Resource($expected);
+        $constraint = new \mtf\Assert\Type\IsResource($expected);
         static::assertThat($actual, $constraint, $message);
     }
 
@@ -468,6 +475,32 @@ trait Assert
         static::assertThat($path, $constraint, $message);
     }
 
+
+    /**
+     * json文件内容相同
+     * @param string $actual
+     * @param string $expected
+     * @param string $message
+     */
+    static public function assertJsonFileEqualsJsonFile(string $actual,string $expected, string $message = '')
+    {
+        $constraint = new \mtf\Assert\File\JsonFileEqualsJsonFile($expected);
+        static::assertThat($actual, $constraint, $message);
+    }
+
+    /**
+     * json文本与json文件相同
+     * @param $actual
+     * @param string $expected
+     * @param string $message
+     */
+    static public function assertJsonStringEqualsJsonFile(string $actual,string $expected, string $message = '')
+    {
+        $constraint = new \mtf\Assert\File\JsonStringEqualsJsonFile($expected);
+        static::assertThat($actual, $constraint, $message);
+    }
+
+
     /**
      * 是无限大数
      * @param $value
@@ -508,7 +541,7 @@ trait Assert
      */
     static public function assertIsBool($value, string $message = '')
     {
-        $constraint = new Boolean();
+        $constraint = new IsBoolean();
         static::assertThat($value, $constraint, $message);
     }
 
@@ -541,10 +574,75 @@ trait Assert
      */
     static public function assertIsInt($value, string $message = '')
     {
-        $constraint = new IsIn();
+        $constraint = new IsInt();
         static::assertThat($value, $constraint, $message);
     }
 
+    /**
+     * 是否可以迭代（类数组）
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsIterable($value, string $message = '')
+    {
+        $constraint = new IsIterable();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 书否为数字
+     * @param $value
+     * @param string $message
+     */
+    static  public function assertIsNumeric($value, string $message = '')
+    {
+        $constraint = new Numeric();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 是对象
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsObject($value, string $message = '')
+    {
+        $constraint = new IsObject();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 是资源类型
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsResource($value, string $message = '')
+    {
+        $constraint = new IsResource();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * IsScalar 类型
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsScalar($value, string $message = '')
+    {
+        $constraint = new IsScalar();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 字符串类型
+     * @param $value
+     * @param string $message
+     */
+    static public function assertIsString($value, string $message = '')
+    {
+        $constraint = new IsString();
+        static::assertThat($value, $constraint, $message);
+    }
     /**
      * 执行一个约束
      *

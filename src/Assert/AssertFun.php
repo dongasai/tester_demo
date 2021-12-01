@@ -2,7 +2,7 @@
 
 namespace mtf\Assert;
 
-class AssertFun
+class AssertFun extends \Webmozart\Assert\Assert
 {
 
 }

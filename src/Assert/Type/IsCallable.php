@@ -15,6 +15,7 @@ class IsCallable extends \mtf\Framework\Constraint
     public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isCallable($value, $this->getMessage($message));
+        return true;
     }
 
 }

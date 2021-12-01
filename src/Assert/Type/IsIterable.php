@@ -15,6 +15,7 @@ class IsIterable extends \mtf\Framework\Constraint
     public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isIterable($value, $this->getMessage($message));
+        return true;
     }
 
 }

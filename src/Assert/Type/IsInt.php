@@ -5,6 +5,7 @@ namespace mtf\Assert\Type;
 /**
  * 数字整形
  * @author dongasai
+ *
  */
 class IsInt extends \mtf\Framework\Constraint
 {

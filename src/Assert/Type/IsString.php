@@ -5,7 +5,7 @@ namespace mtf\Assert\Type;
 
 /**
  * Description of string
- *
+ * 字符串类型
  * @author dongasai
  */
 class IsString extends \mtf\Framework\Constraint

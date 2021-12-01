@@ -2,7 +2,9 @@
 
 namespace unittest;
 
-class TestCase
+abstract class TestCase extends \Tester\TestCase
 {
+
+   
 
 }

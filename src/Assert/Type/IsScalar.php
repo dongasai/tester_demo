@@ -3,11 +3,11 @@
 namespace mtf\Assert\Type;
 
 /**
- * Description of Scalar
+ * Description of IsScalar
  * 标量类型
  * @author dongasai
  */
-class Scalar extends \mtf\Framework\Constraint
+class IsScalar extends \mtf\Framework\Constraint
 {
 
     protected $defaultMessage = '期望是一个标量. 结果是: %s';

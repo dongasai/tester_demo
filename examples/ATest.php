@@ -66,6 +66,28 @@ class ATest extends \mtf\Framework\TestCase
         $this->assertIsFloat(1.2);
         // assertIsInt
         $this->assertIsInt(1);
+        // assertIsIterable
+        $this->assertIsIterable([1]);
+        // assertIsNumeric
+        $this->assertIsNumeric(1);
+        $this->assertIsNumeric('1');
+        // assertIsObject
+        $this->assertIsObject(new \mtf\Assert\Type\IsInt(1));
+        // assertIsResource
+        $fp = fopen("/var/www/html/README.md", "r");
+
+        $this->assertIsResource($fp);
+        // assertIsScalar
+        $this->assertIsScalar(1);
+        // 可读取的
+        $this->assertIsReadable('/var/www/html/README.md');
+        // 可写入的
+        $this->assertIsWritable('/var/www/html/README.md');
+        // assertJsonFileEqualsJsonFile
+        $this->assertJsonFileEqualsJsonFile('/var/www/html/examples/1.json','/var/www/html/examples/2.json');
+        //
+        $this->assertJsonStringEqualsJsonFile('{  "1": "1"}','/var/www/html/examples/1.json');
+
         foreach (range(1, 4) as $item) {
             self::assertLessThanOrEqual(5, $item);
         }
