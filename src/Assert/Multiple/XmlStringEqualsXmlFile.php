@@ -1,6 +1,6 @@
 <?php
 
-namespace mtf\Assert\File;
+namespace mtf\Assert\Multiple;
 
 use mtf\Assert\Object\XmlEq;
 use mtf\Framework\Constraint;
@@ -8,22 +8,21 @@ use mtf\Util\Xml;
 use Webmozart\Assert\Assert;
 
 /**
- * 两个xml 文件相同
- *
+ * xml字符串和xml文件内容相同
  * @author dongasai
+ *
  */
-class XmlFileEqualsXmlFile extends Constraint
+class XmlStringEqualsXmlFile extends Constraint
 {
 
-    protected $defaultMessage = "期望文件相同，结果不相同。";
+    protected $defaultMessage = "期望字符串和文件内容相同，结果不相同。";
 
     public function assertions($value, $message = ''): bool
     {
-        Assert::fileExists($value);
         Assert::fileExists($this->expected);
 
         $expected = Xml::loadFile($this->expected);
-        $actual   = Xml::loadFile($value);
+        $actual   = Xml::load($value);
         $this->callConstraint(new XmlEq($expected), $actual, $message);
 
         return true;
@@ -31,6 +30,7 @@ class XmlFileEqualsXmlFile extends Constraint
 
     /**
      * 约束条件个数
+     *
      * @return int
      */
     public function count(): int

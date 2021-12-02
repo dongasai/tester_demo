@@ -42,6 +42,29 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
     }
 
     /**
+     * 调用其他的断言器
+     *
+     * @param Constraint $Constraint 断言器
+     * @param $value
+     * @param string $message
+     */
+    protected function callConstraint(Constraint $Constraint, $value, $message = '')
+    {
+        $message = $this->getMessage($message);
+        if (!$Constraint->matches($value)) {
+            $msg = sprintf(
+                $message,
+                Helper::valueToString($this->expected),
+                Helper::valueToString($value)
+            );
+
+            InvalidArgumentHelper::reportInvalidArgument($msg);
+        }
+
+    }
+
+
+    /**
      * 调用断言逻辑
      * @param $value
      * @param string $message

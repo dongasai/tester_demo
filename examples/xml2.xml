@@ -4,15 +4,4 @@
         bootstrap="examples/boot.php"
 >
     <dir>examples</dir>
-    <testsuites>
-        <testsuite name="DTestUnit">
-            <file>DTest.php</file>
-            <file>ATest.php</file>
-        </testsuite>
-
-        <testsuite name="ATestUnit">
-            <file>ATest.php</file>
-        </testsuite>
-
-    </testsuites>
 </mtftest>

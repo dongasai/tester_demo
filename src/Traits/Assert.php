@@ -645,12 +645,41 @@ trait Assert
         static::assertThat($actual, $constraint, $message);
     }
 
+    /**
+     * 两个xml 文件相同
+     * @param string $file
+     * @param string $file2
+     * @param string $message
+     */
     static public function assertXmlFileEqualsXmlFile(string $file, string $file2, string $message = '')
     {
         $constraint = new \mtf\Assert\File\XmlFileEqualsXmlFile($file);
         static::assertThat($file2, $constraint, $message);
     }
 
+    /**
+     * xml字符串和xml文件内容相同
+     * @param string $file
+     * @param string $xml
+     * @param string $message
+     */
+    static public function assertXmlStringEqualsXmlFile(string $file, string $xml, string $message = '')
+    {
+        $constraint = new \mtf\Assert\Multiple\XmlStringEqualsXmlFile($file);
+        static::assertThat($xml, $constraint, $message);
+    }
+
+    /**
+     * 两个xml字符串的表述数据相同
+     * @param string $xml
+     * @param string $xml2
+     * @param string $message
+     */
+    static public function assertXmlStringEqualsXmlString(string $xml, string $xml2, string $message = '')
+    {
+        $constraint = new \mtf\Assert\String\XmlStringEq($xml);
+        static::assertThat($xml2, $constraint, $message);
+    }
 
     /**
      * 是无限大数

@@ -113,8 +113,32 @@ class ATest extends \mtf\Framework\TestCase
         // 前缀相同
         self::assertStringStartsWith('1111',"11115555");
         // assertXmlFileEqualsXmlFile
-        self::assertXmlFileEqualsXmlFile('/var/www/html/examples/xml1.xml','/var/www/html/examples/xml2.xml');
+        self::assertXmlFileEqualsXmlFile('/var/www/html/examples/xml1.xml','/var/www/html/examples/xml11.xml');
 
+        self::assertXmlStringEqualsXmlFile('/var/www/html/examples/xml2.xml','<?xml version="1.0" encoding="UTF-8"?>
+<mtftest
+        debug="true"
+        bootstrap="examples/boot.php"
+>
+    <dir>examples</dir>
+</mtftest>
+');
+
+        self::assertXmlStringEqualsXmlString('<?xml version="1.0" encoding="UTF-8"?>
+<mtftest
+        debug="true"
+        bootstrap="examples/boot.php"
+>
+    <dir>examples</dir>
+</mtftest>
+','<?xml version="1.0" encoding="UTF-8"?>
+<mtftest
+        debug="true"
+        bootstrap="examples/boot.php"
+>
+    <dir>examples</dir>
+</mtftest>
+');
 
         foreach (range(1, 4) as $item) {
             self::assertLessThanOrEqual(5, $item);
