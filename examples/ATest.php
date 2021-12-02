@@ -53,13 +53,13 @@ class ATest extends \mtf\Framework\TestCase
         // INF 判断（无限大）
         $this->assertInfinite(log(0));
         // 实例类型
-        $this->assertInstanceOf(ATest1::class,new ATest1());
+        $this->assertInstanceOf(ATest1::class, new ATest1());
         // assertIsArray
-        $this->assertIsArray([1]);
+        $this->assertIsArray([ 1 ]);
         // assertIsBool
         $this->assertIsBool(true);
         // assertIsCallable
-        $this->assertIsCallable(function(){
+        $this->assertIsCallable(function () {
             return 1;
         });
         // assertIsFloat
@@ -67,7 +67,7 @@ class ATest extends \mtf\Framework\TestCase
         // assertIsInt
         $this->assertIsInt(1);
         // assertIsIterable
-        $this->assertIsIterable([1]);
+        $this->assertIsIterable([ 1 ]);
         // assertIsNumeric
         $this->assertIsNumeric(1);
         $this->assertIsNumeric('1');
@@ -84,9 +84,37 @@ class ATest extends \mtf\Framework\TestCase
         // 可写入的
         $this->assertIsWritable('/var/www/html/README.md');
         // assertJsonFileEqualsJsonFile
-        $this->assertJsonFileEqualsJsonFile('/var/www/html/examples/1.json','/var/www/html/examples/2.json');
-        //
-        $this->assertJsonStringEqualsJsonFile('{  "1": "1"}','/var/www/html/examples/1.json');
+        $this->assertJsonFileEqualsJsonFile('/var/www/html/examples/1.json', '/var/www/html/examples/2.json');
+        // json字符串和json文件的数据相同
+        $this->assertJsonStringEqualsJsonFile('{  "1": "1"}', '/var/www/html/examples/1.json');
+        // assertJsonStringEqualsJsonString
+        $this->assertJsonStringEqualsJsonString('{"1": "1"}', '{"1": "1"}');
+        // assertLessThan
+        $this->assertLessThan(2, 1);
+        // assertLessThanOrEqual
+        self::assertLessThanOrEqual(5, 5);
+        // assertNan
+        self::assertNan(acos(8));
+        // assertNull
+        self::assertNull(null);
+        // assertObjectHasAttribute
+        self::assertObjectHasAttribute('foo', new ATest1());
+        self::assertMatchesRegularExpression('/fo/', 'fooooo');
+        $this->assertStringMatchesFormat('%i', '-10');
+        $this->assertStringMatchesFormat('张三%d', '张三10');
+        $this->assertStringMatchesFormatFile('/var/www/html/examples/FormatFile.txt','张三11');
+        $this->assertStringFileMatchesFormat('张三%d','/var/www/html/examples/FormatTxt.txt');
+        // 全相等
+        $this->assertSame(10,10);
+        // 后缀相同
+        self::assertStringEndsWith("888","15888");
+        // 文件内容
+        $this->assertStringEqualsFile('/var/www/html/examples/FormatTxt.txt', '张三10');
+        // 前缀相同
+        self::assertStringStartsWith('1111',"11115555");
+        // assertXmlFileEqualsXmlFile
+        self::assertXmlFileEqualsXmlFile('/var/www/html/examples/xml1.xml','/var/www/html/examples/xml2.xml');
+
 
         foreach (range(1, 4) as $item) {
             self::assertLessThanOrEqual(5, $item);

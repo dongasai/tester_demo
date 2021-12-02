@@ -25,7 +25,6 @@ class CaseRuner
 
     public function __construct(CName $caseClass)
     {
-
         $this->caseClasss = $caseClass->getName();
     }
 

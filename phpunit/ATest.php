@@ -27,6 +27,11 @@ class ATest
         $this->assertFileIsReadable('/path/to/file');
         $this->assertInfinite(1);
 
+        $this->assertNan(1);
+        self::assertObjectHasAttribute('foo',new ATest1());
+        $this->assertStringMatchesFormat('%i', 'foo');
+        self::assertXmlFileEqualsXmlFile();
+
 
     }
 

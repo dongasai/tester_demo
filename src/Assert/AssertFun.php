@@ -2,7 +2,12 @@
 
 namespace mtf\Assert;
 
-class AssertFun extends \Webmozart\Assert\Assert
+class AssertFun
 {
+
+    static public function isXmlString($string)
+    {
+
+    }
 
 }

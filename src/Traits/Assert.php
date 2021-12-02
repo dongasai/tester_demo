@@ -15,8 +15,12 @@ use mtf\Assert\File\DirectoryReadable;
 use mtf\Assert\File\FileExists;
 use mtf\Assert\File\Readable;
 use mtf\Assert\File\Writable;
+use mtf\Assert\Multiple\StringEqFile;
 use mtf\Assert\String\Contains;
 use mtf\Assert\String\ContainsIgnoringCase;
+use mtf\Assert\String\EndsWith;
+use mtf\Assert\String\NotEndsWith;
+use mtf\Assert\String\StartsWith;
 use mtf\Assert\Type\Boolean;
 use mtf\Assert\Type\Infinite;
 use mtf\Assert\Type\IsArray;
@@ -25,6 +29,9 @@ use mtf\Assert\Type\IsCallable;
 use mtf\Assert\Type\IsFloat;
 use mtf\Assert\Type\IsInt;
 use mtf\Assert\Type\IsIterable;
+use mtf\Assert\Type\IsNAN;
+use mtf\Assert\Type\IsNotA;
+use mtf\Assert\Type\IsNull;
 use mtf\Assert\Type\IsObject;
 use mtf\Assert\Type\IsResource;
 use mtf\Assert\Type\IsString;
@@ -61,20 +68,37 @@ trait Assert
     }
 
     /**
+     * 类型和数据都相同
+     *
+     * @param $expected
+     * @param $value
+     * @param string $message
+     */
+    static public function assertSame($expected, $value, string $message = '')
+    {
+        $constraint = new \mtf\Assert\Comparison\Same($expected);
+
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
      * 差值在一定范围之内
+     *
      * @param $expected
      * @param $actual
      * @param float $delta
      * @param string $message
      */
-    static public function assertEqualsWithDelta($expected, $actual, $delta = 0.0,$message = ''){
-        $constraint = new \mtf\Assert\Comparison\EqualsDelta($expected,$delta);
+    static public function assertEqualsWithDelta($expected, $actual, $delta = 0.0, $message = '')
+    {
+        $constraint = new \mtf\Assert\Comparison\EqualsDelta($expected, $delta);
 
         static::assertThat($actual, $constraint, $message);
     }
 
     /**
      * 对象的比较
+     *
      * @param $expected
      * @param $actual
      * @param float $delta
@@ -82,8 +106,9 @@ trait Assert
      * @deprecated 未实现
      * @todo 等待实现
      */
-    static public function assertObjectEquals($expected, $actual, $delta = 0.0,$message = ''){
-        $constraint = new \mtf\Assert\Comparison\EqualsDelta($expected,$delta);
+    static public function assertObjectEquals($expected, $actual, $delta = 0.0, $message = '')
+    {
+        $constraint = new \mtf\Assert\Comparison\EqualsDelta($expected, $delta);
 
         static::assertThat($actual, $constraint, $message);
     }
@@ -106,6 +131,7 @@ trait Assert
 
     /**
      * 不区分大小写的相等
+     *
      * @param $expected
      * @param $actual
      * @param string $message
@@ -176,8 +202,6 @@ trait Assert
     }
 
 
-    //
-
     /**
      * 断言数组中存在指定的key
      *
@@ -214,6 +238,45 @@ trait Assert
     static public function assertStringContainsString(string $value, string $string2, string $message = '')
     {
         $constraint = new Contains($value);
+        static::assertThat($string2, $constraint, $message);
+    }
+
+    /**
+     * 以特定的字符串结尾
+     *
+     * @param string $value
+     * @param string $string2
+     * @param string $message
+     */
+    static public function assertStringEndsWith(string $value, string $string2, string $message = '')
+    {
+        $constraint = new EndsWith($value);
+        static::assertThat($string2, $constraint, $message);
+    }
+
+    /**
+     * 以特定的字符串开头
+     *
+     * @param string $value
+     * @param string $string2
+     * @param string $message
+     */
+    static public function assertStringStartsWith(string $value, string $string2, string $message = '')
+    {
+        $constraint = new StartsWith($value);
+        static::assertThat($string2, $constraint, $message);
+    }
+
+    /**
+     * 字符换与文件内容相同
+     *
+     * @param string $file
+     * @param string $string2
+     * @param string $message
+     */
+    static public function assertStringEqualsFile(string $file, string $string2, string $message = '')
+    {
+        $constraint = new StringEqFile($file);
         static::assertThat($string2, $constraint, $message);
     }
 
@@ -345,6 +408,20 @@ trait Assert
         static::assertThat($className, $constraint, $message);
     }
 
+
+    /**
+     * 对象存在指定属性
+     *
+     * @param string $attributeName
+     * @param $object
+     * @param string $message
+     */
+    static public function assertObjectHasAttribute(string $attributeName, $object, string $message = '')
+    {
+        $constraint = new \mtf\Assert\Object\ObjectHasAttribute($attributeName);
+        static::assertThat($object, $constraint, $message);
+    }
+
     /**
      * 断言类、对象中不存在指定属性
      *
@@ -368,25 +445,71 @@ trait Assert
     {
         $constraint = new \mtf\Assert\Object\PropertyExists($attributeName);
         static::assertThat($className, $constraint, $message);
+    }
+
+    /**
+     * 正则表达式匹配
+     *
+     * @param string $regex 正则表达式
+     * @param mixed $value 内容
+     * @param string $message 错误消息
+     */
+    static public function assertMatchesRegularExpression(string $regex, $value, string $message = '')
+    {
+        $constraint = new \mtf\Assert\String\Regex($regex);
+        static::assertThat($value, $constraint, $message);
+    }
+
+    static public function assertStringMatchesFormat(string $format, $value, string $message = '')
+    {
+        $constraint = new \mtf\Assert\String\StringMatchesFormat($format);
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * 匹配内容符合文件内的格式
+     *
+     * @param string $file
+     * @param $value
+     * @param string $message
+     */
+    static public function assertStringMatchesFormatFile(string $file, $value, string $message = '')
+    {
+        $constraint = new \mtf\Assert\String\StringMatchesFormatFile($file);
+        static::assertThat($value, $constraint, $message);
+
+    }
+
+    /**
+     * 文件内容符合要求的格式
+     *
+     * @param string $file
+     * @param $value
+     * @param string $message
+     */
+    static public function assertStringFileMatchesFormat(string $string, string $file, string $message = '')
+    {
+        $constraint = new \mtf\Assert\String\StringFileMatchesFormat($string);
+        static::assertThat($file, $constraint, $message);
 
     }
 
 
     /**
-     * 断言是否为资源型，可附加断言资源类型
+     * 断言是否为资源型
      *
-     * @param $actual 变量
-     * @param $expected 资源类型
+     * @param $expected
      * @param string $message
      */
-    public static function assertResource($actual, $expected = null, string $message = '')
+    public static function assertResource($expected, string $message = '')
     {
-        $constraint = new \mtf\Assert\Type\IsResource($expected);
-        static::assertThat($actual, $constraint, $message);
+        $constraint = new \mtf\Assert\Type\IsResource();
+        static::assertThat($expected, $constraint, $message);
     }
 
     /**
      * 是否为false，bool类型
+     *
      * @param $value
      * @param string $message
      */
@@ -398,6 +521,7 @@ trait Assert
 
     /**
      * 是否为true，bool类型
+     *
      * @param $value
      * @param string $message
      */
@@ -409,11 +533,12 @@ trait Assert
 
     /**
      * 文件相等
+     *
      * @param string $actual
      * @param string $expected
      * @param string $message
      */
-    static public function assertFileEquals(string $actual,string $expected, string $message = '')
+    static public function assertFileEquals(string $actual, string $expected, string $message = '')
     {
         $constraint = new \mtf\Assert\File\FileEquals($expected);
         static::assertThat($actual, $constraint, $message);
@@ -421,6 +546,7 @@ trait Assert
 
     /**
      * 文件存在
+     *
      * @param $file
      * @param string $message
      */
@@ -432,29 +558,32 @@ trait Assert
 
     /**
      * 文件存在且可读取的
+     *
      * @param $value
      * @param string $message
      */
     static public function assertFileIsReadable($file, string $message = '')
     {
-        self::assertFileExists($file,$message);
+        self::assertFileExists($file, $message);
         self::assertIsReadable($file, $message);
     }
 
     /**
      * 文件存在且可写入的
+     *
      * @param $value
      * @param string $message
      */
     static public function assertFileIsWritable($file, string $message = '')
     {
-        self::assertFileExists($file,$message);
+        self::assertFileExists($file, $message);
         self::assertIsWritable($file, $message);
     }
 
 
     /**
      * 路径是可读的
+     *
      * @param $file
      * @param string $message
      */
@@ -466,6 +595,7 @@ trait Assert
 
     /**
      * 路径是可写入的
+     *
      * @param $path
      * @param string $message
      */
@@ -478,11 +608,12 @@ trait Assert
 
     /**
      * json文件内容相同
+     *
      * @param string $actual
      * @param string $expected
      * @param string $message
      */
-    static public function assertJsonFileEqualsJsonFile(string $actual,string $expected, string $message = '')
+    static public function assertJsonFileEqualsJsonFile(string $actual, string $expected, string $message = '')
     {
         $constraint = new \mtf\Assert\File\JsonFileEqualsJsonFile($expected);
         static::assertThat($actual, $constraint, $message);
@@ -490,19 +621,40 @@ trait Assert
 
     /**
      * json文本与json文件相同
+     *
      * @param $actual
      * @param string $expected
      * @param string $message
      */
-    static public function assertJsonStringEqualsJsonFile(string $actual,string $expected, string $message = '')
+    static public function assertJsonStringEqualsJsonFile(string $actual, string $expected, string $message = '')
     {
         $constraint = new \mtf\Assert\File\JsonStringEqualsJsonFile($expected);
         static::assertThat($actual, $constraint, $message);
     }
 
+    /**
+     * json的字符串 数据相同
+     *
+     * @param string $actual
+     * @param string $expected
+     * @param string $message
+     */
+    static public function assertJsonStringEqualsJsonString(string $actual, string $expected, string $message = '')
+    {
+        $constraint = new \mtf\Assert\File\JsonStringEqualsJsonString($expected);
+        static::assertThat($actual, $constraint, $message);
+    }
+
+    static public function assertXmlFileEqualsXmlFile(string $file, string $file2, string $message = '')
+    {
+        $constraint = new \mtf\Assert\File\XmlFileEqualsXmlFile($file);
+        static::assertThat($file2, $constraint, $message);
+    }
+
 
     /**
      * 是无限大数
+     *
      * @param $value
      * @param string $message
      */
@@ -525,6 +677,7 @@ trait Assert
 
     /**
      * 是数组类型
+     *
      * @param $value
      * @param string $message
      */
@@ -536,6 +689,7 @@ trait Assert
 
     /**
      * 是布尔类型
+     *
      * @param $value
      * @param string $message
      */
@@ -546,7 +700,32 @@ trait Assert
     }
 
     /**
+     * 不合法数值（非数值）
+     *
+     * @param $value
+     * @param string $message
+     */
+    static public function assertNan($value, string $message = '')
+    {
+        $constraint = new IsNAN();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
+     * NULL类型
+     *
+     * @param $value
+     * @param string $message
+     */
+    static public function assertNull($value, string $message = '')
+    {
+        $constraint = new IsNull();
+        static::assertThat($value, $constraint, $message);
+    }
+
+    /**
      * 是 可调用结构
+     *
      * @param $value
      * @param string $message
      */
@@ -558,6 +737,7 @@ trait Assert
 
     /**
      * 浮点类型
+     *
      * @param $value
      * @param string $message
      */
@@ -569,6 +749,7 @@ trait Assert
 
     /**
      * 数字整形
+     *
      * @param $value
      * @param string $message
      */
@@ -580,6 +761,7 @@ trait Assert
 
     /**
      * 是否可以迭代（类数组）
+     *
      * @param $value
      * @param string $message
      */
@@ -591,10 +773,11 @@ trait Assert
 
     /**
      * 书否为数字
+     *
      * @param $value
      * @param string $message
      */
-    static  public function assertIsNumeric($value, string $message = '')
+    static public function assertIsNumeric($value, string $message = '')
     {
         $constraint = new Numeric();
         static::assertThat($value, $constraint, $message);
@@ -602,6 +785,7 @@ trait Assert
 
     /**
      * 是对象
+     *
      * @param $value
      * @param string $message
      */
@@ -613,6 +797,7 @@ trait Assert
 
     /**
      * 是资源类型
+     *
      * @param $value
      * @param string $message
      */
@@ -624,6 +809,7 @@ trait Assert
 
     /**
      * IsScalar 类型
+     *
      * @param $value
      * @param string $message
      */
@@ -635,6 +821,7 @@ trait Assert
 
     /**
      * 字符串类型
+     *
      * @param $value
      * @param string $message
      */
@@ -643,6 +830,7 @@ trait Assert
         $constraint = new IsString();
         static::assertThat($value, $constraint, $message);
     }
+
     /**
      * 执行一个约束
      *

@@ -3,6 +3,10 @@
 namespace mtf\Framework;
 
 use mtf\Framework\Result\AssertionFailedError;
+use mtf\Util\Helper;
+use mtf\Util\InvalidArgumentHelper;
+use mtf\Util\Type;
+
 /**
  * Class Constraint InterfaceConstraint
  * 约束类,断言类应继承此类
@@ -38,6 +42,36 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
     }
 
     /**
+     * 调用断言逻辑
+     * @param $value
+     * @param string $message
+     */
+    protected function callMatches($value, $message = '')
+    {
+        $message = $this->getMessage($message);
+
+        if (!$this->matches($value)) {
+            $msg = sprintf(
+                $message,
+                Helper::valueToString($this->expected),
+                Helper::valueToString($value)
+            );
+
+            InvalidArgumentHelper::reportInvalidArgument($msg);
+        }
+    }
+
+    /**
+     * 断言逻辑
+     * @param $value
+     * @return bool
+     */
+    protected function matches($value):bool
+    {
+        return true;
+    }
+
+    /**
      * 
      * @param string|null $message
      * @return string
@@ -51,6 +85,7 @@ abstract class Constraint implements SelfDescribing, \Countable, InterfaceConstr
     }
 
     /**
+     * 运行断言
      * @param $value
      * @param $message
      */

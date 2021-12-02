@@ -13,6 +13,7 @@ class IsNotA extends \mtf\Framework\Constraint
     public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isNotA($value, $this->expected, $this->getMessage($message));
+        return true;
     }
 
 }

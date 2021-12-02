@@ -7,19 +7,21 @@ use mtf\Framework\Constraint;
 use Webmozart\Assert\Assert;
 
 /**
- * json字符串和json文件 内容表示的数据相同
+ * json内容和
  * @author dongasai
  */
-class JsonStringEqualsJsonFile extends Constraint
+class JsonStringEqualsJsonString extends Constraint
 {
 
     public function assertions($value, $message = ''): bool
     {
         Assert::string($value, $this->getMessage($message));
-        Assert::fileExists($this->expected, $this->getMessage($message));
+        Assert::string($this->expected, $this->getMessage($message));
+
         Assertion::isJsonString($value);
-        $a = json_decode($value,true);
-        $b = json_decode(file_get_contents($this->expected),true);
+        Assertion::isJsonString($this->expected);
+        $a = json_decode($value, true);
+        $b = json_decode($this->expected, true);
         sort($a);
         sort($b);
         Assert::eq($a, $b);

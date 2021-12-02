@@ -1,6 +1,6 @@
 <?php
 
-namespace mtf;
+namespace mtf\Util;
 
 /**
  * Description of Helper
