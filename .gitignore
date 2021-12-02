@@ -5,3 +5,4 @@ vendor/*
 /ext/*
 /node_modules/*
 /package-lock.json
+/composer.lock

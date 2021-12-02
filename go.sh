@@ -1,5 +1,5 @@
 #!/bin/bash
-
+git pull
 sudo service docker start
 # sudo docker-compose build
 sudo docker-compose -p testerdemo up -d 

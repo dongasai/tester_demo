@@ -39,7 +39,9 @@ composer suites
 # commit 
 > 格式
 ```
+
 <type>(<scope>): <subject>
+
 ```
 commitizen
 npm install -g commitizen cz-conventional-changelog
