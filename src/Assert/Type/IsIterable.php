@@ -12,9 +12,10 @@ class IsIterable extends \mtf\Framework\Constraint
 
     protected $defaultMessage = '期望是`可迭代结构`. 结果是: %s';
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isIterable($value, $this->getMessage($message));
+        return true;
     }
 
 }

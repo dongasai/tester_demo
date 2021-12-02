@@ -7,14 +7,15 @@ namespace mtf\Assert\Type;
  *
  * @author dongasai
  */
-class Object extends \mtf\Framework\Constraint
+class IsObject extends \mtf\Framework\Constraint
 {
 
     protected $defaultMessage = '期望是个对象。结果是: %s';
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::object($value, $this->getMessage($message));
+        return true;
     }
 
 }

@@ -35,4 +35,3 @@ $command->parse($_SERVER['argv']);
 
 (new mtf\Action\Tester($command))->run();
 \mtf\Framework\Cache::reset();
-dump(\mtf\Framework\Cache::getRunTime());

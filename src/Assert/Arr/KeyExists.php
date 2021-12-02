@@ -11,7 +11,7 @@ namespace mtf\Assert\Arr;
 class KeyExists extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::keyExists($value, $this->expected, $this->getMessage($message));
 

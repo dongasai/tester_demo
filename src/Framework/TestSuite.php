@@ -47,7 +47,6 @@ class TestSuite
             foreach ($testSuite['file'] as $f) {
                 $file = Path::getRealPath($dir, $f);
                 $cs   = $tester->getFileCase($file);
-                dump($cs,$name);
                 foreach ($cs as $cname) {
                     $Suite->addCase($cname);
                 }

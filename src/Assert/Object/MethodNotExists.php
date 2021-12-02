@@ -11,7 +11,7 @@ namespace mtf\Assert\Object;
 class MethodNotExists extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::methodNotExists($value, $this->expected, $this->getMessage($message));
         return true;

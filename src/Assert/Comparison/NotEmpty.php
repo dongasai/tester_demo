@@ -10,7 +10,7 @@ namespace mtf\Assert\Comparison;
 class NotEmpty extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::notEmpty($value, $this->getMessage($message));
         return true;

@@ -10,7 +10,7 @@ namespace mtf\Assert\Type;
 class UniqueValues extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::uniqueValues($value, $this->getMessage($message));
         return true;

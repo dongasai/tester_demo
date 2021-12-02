@@ -11,7 +11,7 @@ namespace mtf\Assert\String;
 class NotWhitespaceOnly extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::notWhitespaceOnly($value, $this->getMessage($message));
         return true;

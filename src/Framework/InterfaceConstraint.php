@@ -11,9 +11,9 @@ interface InterfaceConstraint
 
     /**
      * 断言
-     * @param  $value 要断言的变量
+     * @param mixed $value 要断言的变量
      * @param string $message 提示信息字符串
      * @return bool
      */
-    public function assertions($value, $message = null): bool;
+    public function assertions($value, $message = ''): bool;
 }

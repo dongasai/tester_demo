@@ -43,8 +43,13 @@ composer suites
 <type>(<scope>): <subject>
 
 ```
-commitizen
+```bash
 npm install -g commitizen cz-conventional-changelog
+echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
+
+
+```
+
 ## Type
 * feat 新功能:     新功能
 * fix  修正:      BUG修正

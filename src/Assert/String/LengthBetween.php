@@ -21,7 +21,7 @@ class LengthBetween extends \mtf\Framework\Constraint
         $this->expected = [ $min, $max ];
     }
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::lengthBetween($value, $this->expected[0], $this->expected[1], $this->getMessage($message));
         return true;

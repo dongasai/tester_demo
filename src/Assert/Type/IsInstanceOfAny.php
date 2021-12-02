@@ -10,7 +10,7 @@ namespace mtf\Assert\Type;
 class IsInstanceOfAny extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isInstanceOfAny($value, $this->expected, $this->getMessage($message));
         return true;

@@ -14,7 +14,7 @@ use ReflectionClass;
 class ClassHasStaticAttribute extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         if (!$this->matches($value)) {
             Assert::reportInvalidArgumenta(\sprintf(

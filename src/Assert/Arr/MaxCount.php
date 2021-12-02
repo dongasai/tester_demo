@@ -11,7 +11,7 @@ namespace mtf\Assert\Arr;
 class MaxCount extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::maxCount($value, $this->expected, $this->getMessage($message));
         return true;

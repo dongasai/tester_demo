@@ -11,7 +11,7 @@ namespace mtf\Assert\Arr;
 class IsList extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::isList($value, $this->getMessage($message));
         return true;

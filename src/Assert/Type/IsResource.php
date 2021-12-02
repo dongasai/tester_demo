@@ -3,16 +3,17 @@
 namespace mtf\Assert\Type;
 
 /**
- * Description of Resource
- *
+ * Description of IsResource
+ * 资源类型尼姑
  * @author dongasai
  */
-class Resource extends \mtf\Framework\Constraint
+class IsResource extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::resource($value, $this->expected, $this->getMessage($message));
+        return true;
     }
 
     public function count(): int

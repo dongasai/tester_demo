@@ -11,7 +11,7 @@ namespace mtf\Assert\Comparison;
 class Same extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::same($value, $this->expected, $this->getMessage($message));
         return true;

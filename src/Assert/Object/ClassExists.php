@@ -11,7 +11,7 @@ namespace mtf\Assert\Object;
 class ClassExists extends \mtf\Framework\Constraint
 {
 
-    public function assertions($value, $message = null): bool
+    public function assertions($value, $message = ''): bool
     {
         \Webmozart\Assert\Assert::classExists($value, $this->getMessage($message));
         return true;

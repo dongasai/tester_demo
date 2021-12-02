@@ -16,7 +16,7 @@
       "./mtf --debug"
     ],
     "suites": [
-      "./mtf --debug --testsuite DTestUnit"
+      "./mtf --debug --testsuite ATestUnit"
     ],
     "b": [
       "vendor/bin/phpunit "
@@ -36,7 +36,8 @@
     "nikic/php-parser": "^4.10",
     "phpunit/php-timer": "^1.0",
     "ext-simplexml": "*",
-    "yingchaophp/type-extension": "*"
+    "yingchaophp/type-extension": "*",
+    "beberlei/assert": "^3.3"
   },
   "require-dev": {
     "phpunit/phpunit": "*",
