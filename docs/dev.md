@@ -62,4 +62,3 @@ echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
 * ci:       对CI配置文件和脚本的更改（示例范围：Travis、Circle、BrowserStack、SauceLabs）
 * chore 其他:    不修改src或测试文件的其他更改
 * revert 恢复:   恢复以前的提交
-
