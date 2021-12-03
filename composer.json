@@ -18,6 +18,9 @@
     "suites": [
       "./mtf --debug --testsuite ATestUnit"
     ],
+    "group": [
+      "./mtf --debug --group test1"
+    ],
     "b": [
       "vendor/bin/phpunit "
     ],

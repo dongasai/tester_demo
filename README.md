@@ -28,8 +28,8 @@
 ## 相关文档
 
 * [注解](doc/annotation.md)
-* [开发](doc/dev.md)
-* [团队](doc/team.md)
+* [开发贡献](doc/dev.md)
+* [团队介绍](doc/team.md)
 
 
 

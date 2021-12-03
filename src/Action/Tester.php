@@ -86,8 +86,7 @@ class Tester extends Action
                 $this->readFile($caseFile);
             }
         }
-        // 处理 用例组合 test Suites
-        TestSuite::callOptions($this);
+
         switch ($Mode){
             case OperationMode::ALL:
                 // 运行所有的测试用例
@@ -97,6 +96,9 @@ class Tester extends Action
                 }
                 break;
             case OperationMode::RUN_Suites:
+                // 处理 用例组合 test Suites
+                TestSuite::callOptions($this);
+
                 // 运行用例组合
                 /**
                  * @var TestSuite $runSuite
@@ -107,6 +109,8 @@ class Tester extends Action
                     Display::getDi()->dump(Display::LevelDebug,'可测试的用例',$runSuite->getList());
                     $this->runCaseClasss($runSuite->getList());
                 }
+            case OperationMode::RUN_Groups:
+                TestSuite::callOptions($this);
 
         }
 

@@ -17,6 +17,7 @@ sudo docker exec -it testerdemo_php_1 bash
 * [ ] Suites测试用例集合功能
 * [ ] UnitTest转换
 * [ ] 插件系统
+* [ ] Group 分组测试
 
 # 开发常用命令
 

@@ -41,6 +41,7 @@ class Options
         'xmlPath'        => 'file',
         'testSuites'     => 'array',
         'testSuite'      => 'string',
+        'group'          => 'string',
         'display'        => 'Display'
     ];
     public static  $i18n = 'zh-CN';
@@ -113,7 +114,7 @@ class Options
     /**
      * @var array 要运行的分组
      */
-    public static $runGuoups;
+    public static $group;
     /**
      * @var string 临时文件目
      */
@@ -385,6 +386,7 @@ class Options
 
     /**
      * 获取文件夹位置
+     *
      * @return Dir
      * @throws \Exception
      */

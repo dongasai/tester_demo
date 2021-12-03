@@ -44,7 +44,7 @@ class OperationMode
         if(Options::$testSuite){
             return self::RUN_Suites;
         }
-        if(Options::$runSuites){
+        if(Options::$group){
             return self::RUN_Groups;
         }
         return 1;

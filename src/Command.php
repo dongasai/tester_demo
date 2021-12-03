@@ -94,7 +94,7 @@ EOT;
     public function testSelectionOptions(){
         $this->option('--filter', '运行测试时使用的筛选器');
         $this->option('--testsuite', '运行测试套件时使用的筛选器');
-        $this->option('--group', '只运行来自指定组的测试。使用配置文件进行组配置');
+        $this->option('--group', '只运行来自指定组的测试用例。使用配置文件进行组配置');
         $this->option('--exclude-group', '排除指定组的测试');
         $this->option('--list-groups','列出可用的测试组。');
         $this->option('--list-suites','列出可用的测试套件');
