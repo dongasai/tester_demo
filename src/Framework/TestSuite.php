@@ -40,6 +40,7 @@ class TestSuite
      */
     static public function callOptions(\mtf\Action\Tester $tester)
     {
+        //@todo 只进行了对文件的处理，未进行对类名 的处理
         foreach (Options::$testSuites as $testSuite) {
             $dir   = Path::getDirRealPath(Options::getDir(), $testSuite['dir'] ?? '');
             $name  = $testSuite['name'];

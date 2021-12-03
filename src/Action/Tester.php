@@ -17,6 +17,7 @@ use mtf\Framework\OperationMode;
 use mtf\Framework\Pool;
 use mtf\Framework\Process;
 use mtf\Framework\TestCase;
+use mtf\Framework\TestGroup;
 use mtf\Framework\TestSuite;
 use mtf\Helper;
 use mtf\Options;
@@ -46,6 +47,10 @@ class Tester extends Action
     ];
 
     private $fileClassMap = [
+    ];
+
+    private $groupCase = [
+
     ];
 
     private $testSuites = [
@@ -87,11 +92,11 @@ class Tester extends Action
             }
         }
 
-        switch ($Mode){
+        switch ($Mode) {
             case OperationMode::ALL:
                 // 运行所有的测试用例
                 if ($this->caseClasss) {
-                    Display::getDi()->dump(Display::LevelDebug,'可测试的用例',$this->caseClasss);
+                    Display::getDi()->dump(Display::LevelDebug, '可测试的用例', $this->caseClasss);
                     $this->runCaseClasss($this->caseClasss);
                 }
                 break;
@@ -103,14 +108,20 @@ class Tester extends Action
                 /**
                  * @var TestSuite $runSuite
                  */
-                $runSuite = $this->testSuites[Options::$testSuite]??null;
+                $runSuite = $this->testSuites[Options::$testSuite] ?? null;
 
-                if($runSuite){
-                    Display::getDi()->dump(Display::LevelDebug,'可测试的用例',$runSuite->getList());
+                if ($runSuite) {
+                    Display::getDi()->dump(Display::LevelDebug, '可测试的用例', $runSuite->getList());
                     $this->runCaseClasss($runSuite->getList());
                 }
             case OperationMode::RUN_Groups:
-                TestSuite::callOptions($this);
+                TestGroup::callOptions($this);
+                $runGroup = $this->groupCase[Options::$group] ?? null;
+
+                if ($runGroup) {
+                    Display::getDi()->dump(Display::LevelDebug, "分组 {$runGroup->getName()} 可测试的用例", $runGroup->getList());
+                    $this->runCaseClasss($runGroup->getList());
+                }
 
         }
 
@@ -119,6 +130,17 @@ class Tester extends Action
         Command::getWriter()->info("运行用时:" . PHP_Timer::secondsToTimeString($time), true);
         Command::getWriter()->info("断言总量:" . Cache::getAssertCount(), true);
     }
+
+    /**
+     * 获取测试用例集合
+     *
+     * @return CName[]
+     */
+    public function getCaseList()
+    {
+        return $this->caseClasss;
+    }
+
 
     /**
      * 运行测试用例
@@ -169,10 +191,10 @@ class Tester extends Action
                     $className = $ast->name->toString();
 
                     if ((new $className) instanceof TestCase) {
-                        $this->caseClasss[]            = new CName($className);
+                        $this->caseClasss[]              = new CName($className);
                         $this->fileClassMap[$caseFile][] = new CName($className);
-                    }else{
-                        Display::getDi()->text(Display::LevelDebug,"类 $className 跳过 ");
+                    } else {
+                        Display::getDi()->text(Display::LevelDebug, "类 $className 跳过 ");
                     }
                 } elseif ($ast instanceof Namespace_) {
                     $namespace                     = $ast->namespacedName;
@@ -236,12 +258,26 @@ class Tester extends Action
 
     /**
      * 增加 用例集合
+     *
      * @param TestSuite $suite
      * @return $this
      */
     public function addTestSuite(TestSuite $suite)
     {
         $this->testSuites[$suite->getName()] = $suite;
+
+        return $this;
+    }
+
+    /**
+     * 增加 用例分组
+     *
+     * @param TestGroup $suite
+     * @return $this
+     */
+    public function addTestGroup(TestGroup $group)
+    {
+        $this->groupCase[$group->getName()] = $group;
 
         return $this;
     }

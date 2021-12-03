@@ -18,7 +18,6 @@ class TestGroup
 
     private $name = '';
     private $list = [];
-    private $dir  = '';
 
     /**
      * 构造函数，设置名字和文件夹
@@ -26,10 +25,9 @@ class TestGroup
      * @param string $name
      * @param string
      */
-    public function __construct(string $name, Dir $dir)
+    public function __construct(string $name)
     {
         $this->name = $name;
-        $this->dir  = $dir;
     }
 
     /**
@@ -39,19 +37,23 @@ class TestGroup
      */
     static public function callOptions(\mtf\Action\Tester $tester)
     {
-        foreach (Options::$testSuites as $testSuite) {
-            $dir   = Path::getDirRealPath(Options::getDir(), $testSuite['dir'] ?? '');
-            $name  = $testSuite['name'];
-            $Suite = new TestSuite($name, $dir);
-            foreach ($testSuite['file'] as $f) {
-                $file = Path::getRealPath($dir, $f);
-                $cs   = $tester->getFileCase($file);
-                foreach ($cs as $cname) {
-                    $Suite->addCase($cname);
+        $list = [];
+        foreach ($tester->getCaseList() as $CName) {
+            $comment                                    = new Comment($CName->getName(), 'class');
+            $commentOption                              = $comment->parse();
+            $groups= $commentOption['group'];
+            foreach ($groups as $group){
+                if(!isset($list[$group])){
+                    $list[$group] = new TestGroup($group);
                 }
+                $list[$group]->addCase($CName);
             }
-            $tester->addTestSuite($Suite);
         }
+
+        foreach ($list as $value){
+            $tester->addTestGroup($value);
+        }
+
     }
 
     /**
@@ -77,9 +79,7 @@ class TestGroup
         return $this->list;
     }
 
-    public function getDir(): Dir
-    {
-        return $this->dir;
-    }
+
+
 
 }
