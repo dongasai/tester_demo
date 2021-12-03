@@ -14,7 +14,13 @@ class Comment
     private $string;
     private $options;
 
-    public function __construct($name, $type = 'class')
+    /**
+     * 构造函数
+     * @param $name
+     * @param $type
+     * @throws \ReflectionException
+     */
+    public function __construct($name, string $type = 'class')
     {
         if ($type === 'class') {
             $r            = new \ReflectionClass($name);

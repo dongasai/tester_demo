@@ -41,7 +41,7 @@ class TestGroup
         foreach ($tester->getCaseList() as $CName) {
             $comment                                    = new Comment($CName->getName(), 'class');
             $commentOption                              = $comment->parse();
-            $groups= $commentOption['group'];
+            $groups = $commentOption['group']??[];
             foreach ($groups as $group){
                 if(!isset($list[$group])){
                     $list[$group] = new TestGroup($group);

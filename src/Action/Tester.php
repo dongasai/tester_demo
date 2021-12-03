@@ -42,7 +42,9 @@ class Tester extends Action
 
     private $caseFiles = [
     ];
-
+    /**
+     * @var CName[]
+     */
     private $caseClasss = [
     ];
 
@@ -283,6 +285,23 @@ class Tester extends Action
     }
 
     /**
+     *
+     * 用例是否存在
+     *
+     * @param string $cname
+     * @return bool
+     */
+    public function isExistCase($cname): bool
+    {
+        foreach ($this->caseClasss as $classs) {
+            if ($cname == $classs->getName()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+        /**
      *
      * @param File $file
      * @return CNames

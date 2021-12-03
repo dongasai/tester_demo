@@ -46,11 +46,19 @@ class TestSuite
             $name  = $testSuite['name'];
             $Suite = new TestSuite($name, $dir);
             foreach ($testSuite['file'] as $f) {
-                $file = Path::getRealPath($dir, $f);
-                $cs   = $tester->getFileCase($file);
-                foreach ($cs as $cname) {
-                    $Suite->addCase($cname);
+                if(strpos('.',$f)===false){
+                    // 不是文件就是类名
+                    if($tester->isExistCase($f)){
+                        $Suite->addCase(new CName($f));
+                    }
+                }else{
+                    $file = Path::getRealPath($dir, $f);
+                    $cs   = $tester->getFileCase($file);
+                    foreach ($cs as $cname) {
+                        $Suite->addCase($cname);
+                    }
                 }
+
             }
             $tester->addTestSuite($Suite);
         }

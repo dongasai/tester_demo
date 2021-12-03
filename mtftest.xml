@@ -14,5 +14,11 @@
             <file>ATest.php</file>
         </testsuite>
 
+
+        <testsuite name="AUnit">
+            <file>ATest</file>
+            <file>BTest</file>
+        </testsuite>
+
     </testsuites>
 </mtftest>

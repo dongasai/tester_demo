@@ -18,6 +18,9 @@
     "suites": [
       "./mtf --debug --testsuite ATestUnit"
     ],
+    "suites2": [
+      "./mtf --debug --testsuite AUnit"
+    ],
     "group": [
       "./mtf --debug --group test1"
     ],
