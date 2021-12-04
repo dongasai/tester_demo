@@ -74,6 +74,7 @@ abstract class TestCase
         }
         for ($i = 0; $i < $times; $i++) {
             $this->setUp();
+            TestResult::getInstance()->startTest($test);
             if ($provider) {
                 foreach ($provider as $providerD) {
                     self::$_return[$func] = call_user_func_array([$this, $func], $providerD);
@@ -83,6 +84,8 @@ abstract class TestCase
             } else {
                 self::$_return[$func] = call_user_func([$this, $func]);
             }
+            $test->getRunTimes();
+            TestResult::getInstance()->endTest($test);
             $this->tearDown();
         }
     }

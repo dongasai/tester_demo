@@ -32,6 +32,7 @@ class ATest
         $this->assertStringMatchesFormat('%i', 'foo');
         self::assertXmlFileEqualsXmlFile();
 
+        \PHPUnit\Framework\IncompleteTestError::class;
 
     }
 

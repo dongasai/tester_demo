@@ -23,7 +23,6 @@ class Test
         $this->case  = $case;
         $this->func  = $func;
         $this->time = new Timeer();
-        $this->time->start();
     }
 
     public function run()

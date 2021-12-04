@@ -53,7 +53,7 @@ interface InterfaceTestResult
     /**
      * 通知测试套件已经完成。
      */
-    public function endTestSuite(TestSuite $suite,\SebastianBergmann\Timer\Duration $time);
+    public function endTestSuite(TestSuite $suite,Timeer $time);
 
     /**
      * 通知测试将要开始了。
@@ -61,9 +61,8 @@ interface InterfaceTestResult
     public function startTest(Test $test);
 
     /**
-     * 通知测试已完成。
-     *
-     * @throws \mtf\Excetions\InvalidArgumentException
+     * @param Test $test
+     * @return mixed
      */
-    public function endTest(Test $test, \SebastianBergmann\Timer\Duration $time);
+    public function endTest(Test $test);
 }

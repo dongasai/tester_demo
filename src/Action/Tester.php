@@ -18,7 +18,9 @@ use mtf\Framework\Pool;
 use mtf\Framework\Process;
 use mtf\Framework\TestCase;
 use mtf\Framework\TestGroup;
+use mtf\Framework\TestResult;
 use mtf\Framework\TestSuite;
+use mtf\Framework\Timeer;
 use mtf\Helper;
 use mtf\Options;
 use PHP_Timer;
@@ -28,6 +30,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\ParserFactory;
 use Prophecy\Exception\Doubler\ClassNotFoundException;
+use SebastianBergmann\Diff\TimeEfficientImplementationTest;
 use TypeExtension\Multiple\CNames;
 use TypeExtension\Single\CName;
 use TypeExtension\Single\File;
@@ -113,8 +116,14 @@ class Tester extends Action
                 $runSuite = $this->testSuites[Options::$testSuite] ?? null;
 
                 if ($runSuite) {
+                   $time  = new Timeer();
+                    // 测试套件开始
+                    TestResult::getInstance()->startTestSuite($runSuite);
                     Display::getDi()->dump(Display::LevelDebug, '可测试的用例', $runSuite->getList());
                     $this->runCaseClasss($runSuite->getList());
+                    $time->end();
+                    // 测试套件结束
+                    TestResult::getInstance()->endTestSuite($runSuite,$time);
                 }
             case OperationMode::RUN_Groups:
                 TestGroup::callOptions($this);

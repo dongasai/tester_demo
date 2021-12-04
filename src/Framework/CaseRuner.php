@@ -44,7 +44,7 @@ class CaseRuner
     public function run()
     {
         \PHP_Timer::start();
-        usleep(1000 * 10);
+
         $caseClass = $this->caseClasss;
 
         // 前置方法
@@ -56,6 +56,7 @@ class CaseRuner
 
         }
         $this->handle = $case;
+
         $me           = get_class_methods($case);
 
         foreach ($me as $func) {
@@ -63,9 +64,14 @@ class CaseRuner
                 $this->testFunc[] = $func;
             }
         }
-
+        $assertCountBefore = TestCase::$AssertCount;
         foreach ($this->testFunc as $func) {
             $this->handle->run($func);
+        }
+        $assertCountRun = TestCase::$AssertCount - $assertCountBefore;
+        if ( $assertCountRun == 0) {
+            // 这个测试方法没有断言，标记危险
+
         }
 
         // 后置方法
