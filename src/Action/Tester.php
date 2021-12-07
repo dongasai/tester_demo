@@ -31,6 +31,7 @@ use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\ParserFactory;
 use Prophecy\Exception\Doubler\ClassNotFoundException;
 use SebastianBergmann\Diff\TimeEfficientImplementationTest;
+use SebastianBergmann\Environment\Console;
 use TypeExtension\Multiple\CNames;
 use TypeExtension\Single\CName;
 use TypeExtension\Single\File;
@@ -107,7 +108,19 @@ class Tester extends Action
                 break;
             case OperationMode::RUN_Suites:
                 // 处理 用例组合 test Suites
+                Display::getDi()->textDebug("当前正在运行制定的测试集合：".Options::$testSuite);
                 TestSuite::callOptions($this);
+                echo "\033[H\033[2J";
+                sleepms(0.5);
+                echo " 进程1 * 0 \n jincheng2 * 0 \n";
+                foreach (range(1,100) as $item){
+
+                    sleepms(0.1);
+                    echo "\033[H\033[2J";
+                    echo "\x1b[0;0H \n进程1 * $item \n jincheng2 * $item \n";
+                }
+
+
 
                 // 运行用例组合
                 /**

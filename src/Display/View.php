@@ -49,4 +49,14 @@ class View
         }
     }
 
+    /**
+     * 输出debug级别的文本信息
+     * @param string $text
+     * @return void
+     */
+    public function textDebug(string $text)
+    {
+        $this->text(Display::LevelDebug, $text);
+    }
+
 }
