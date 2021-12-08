@@ -115,7 +115,7 @@ class Tester extends Action
                 echo " 进程1 * 0 \n jincheng2 * 0 \n";
                 foreach (range(1,100) as $item){
 
-                    sleepms(0.1);
+                    sleepms(0.01);
                     echo "\033[H\033[2J";
                     echo "\x1b[0;0H \n进程1 * $item \n jincheng2 * $item \n";
                 }
@@ -184,7 +184,8 @@ class Tester extends Action
         $poll = new Pool(Options::$parallel);
         foreach ($threadCase as $t => $caseS) {
             foreach ($caseS as $case2) {
-                $poll->execute(new Process(new \mtf\Framework\CaseRuner($case2), $t));
+                $caseObject = new \mtf\Framework\CaseRuner($case2);
+                $poll->execute(new Process($caseObject, $t));
             }
         }
         $poll->wait(true, 100);

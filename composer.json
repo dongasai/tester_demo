@@ -24,8 +24,8 @@
     "group": [
       "./mtf --debug --group test1"
     ],
-    "b": [
-      "vendor/bin/phpunit "
+    "unit": [
+      "vendor/bin/phpunit -vvv --testsuite unit --stop-on-risky"
     ],
     "tester": [
       "vendor/bin/tester -C --colors 1 --setup tester/setup.php tester"

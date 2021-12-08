@@ -19,20 +19,18 @@ class ATest
     {
         $actual = 0;
         $this->assertEquals(0, $actual);
-        $this->assertContains('foo', stdClass::class);
+    }
 
-        $this->assertContainsOnly('string', ['1', '2']);
-        $this->assertEqualsCanonicalizing([3, 2, 1], [2, 3, 1]);
-        $this->assertEqualsWithDelta(1.0, 1.5, 0.1);
-        $this->assertFileIsReadable('/path/to/file');
-        $this->assertInfinite(1);
+    public function testA1()
+    {
 
-        $this->assertNan(1);
-        self::assertObjectHasAttribute('foo',new ATest1());
-        $this->assertStringMatchesFormat('%i', 'foo');
-        self::assertXmlFileEqualsXmlFile();
 
-        \PHPUnit\Framework\IncompleteTestError::class;
+    }
+
+    public function testA2()
+    {
+        $actual = 0;
+        $this->assertEquals(0, $actual);
 
     }
 

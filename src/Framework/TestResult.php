@@ -2,14 +2,16 @@
 
 namespace mtf\Framework;
 
+use mtf\Excetions\AssertionFailedError;
+use mtf\Excetions\CaseWarning;
 use mtf\Excetions\IncompleteTestError;
 use mtf\Excetions\SkippedTestError;
+use mtf\Options;
 use SebastianBergmann\Timer\Duration;
 
 /**
- * Description of TestResult
- *
- * @author Administrator
+ * 测试结果
+ * @author dongasai
  */
 class TestResult implements InterfaceTestResult
 {
@@ -58,20 +60,33 @@ class TestResult implements InterfaceTestResult
      * @param \Throwable $t
      * @param float $time
      */
-    public function addError(Test $test, $t, $time)
+    public function addError(Test $test, $t)
     {
         // TODO: Implement addError() method.
     }
+
+    /**
+     * 增加一个风险
+     *
+     * @param Test $test
+     * @param $t
+     * @return void
+     */
+    public function addEisky(Test $test, $t)
+    {
+
+    }
+
 
     /**
      * 增加一个 测试 警告
      *
      * @param \mtf\Framework\Test $test
      * @param \mtf\Framework\Result\Warning $e
-     * @param Duration $time
      */
-    public function addWarning(Test $test, $e, $time)
+    public function addWarning(Test $test, $e)
     {
+
 
     }
 
@@ -145,6 +160,11 @@ class TestResult implements InterfaceTestResult
      * @return void
      */
     public function endTest(Test $test)
+    {
+
+    }
+
+    protected function isStop()
     {
 
     }

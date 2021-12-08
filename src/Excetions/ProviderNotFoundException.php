@@ -9,9 +9,8 @@
 namespace mtf\Excetions;
 
 /**
- * Description of ProviderNotFoundExcetion
- *
- * @author Administrator
+ * 供给器未找到的错误
+ * @author dongasai
  */
 class ProviderNotFoundException extends  Exception
 {

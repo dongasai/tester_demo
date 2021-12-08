@@ -2,9 +2,12 @@
 
 namespace mtf\Framework;
 
+use mtf\Framework\Result\Warning;
+
 /**
  * Description of TestCase
  * 测试用例基类
+ *
  * @author dongasai
  */
 abstract class TestCase
@@ -48,7 +51,9 @@ abstract class TestCase
 
     public function run($func)
     {
-        
+
+        $assertCountBefore = TestCase::$AssertCount;
+
         $test         = new Test($this, $func);
         $options      = new Comment([$this, $func], 'Method');
         $times        = $options->getTimes();
@@ -72,6 +77,7 @@ abstract class TestCase
                 TestResult::getInstance()->addWarning($test, new Result\Warning(),$test->getRunTimes());
             }
         }
+        // 进行多次执行
         for ($i = 0; $i < $times; $i++) {
             $this->setUp();
             TestResult::getInstance()->startTest($test);
@@ -88,6 +94,12 @@ abstract class TestCase
             TestResult::getInstance()->endTest($test);
             $this->tearDown();
         }
+        $assertCountRun = TestCase::$AssertCount - $assertCountBefore;
+        if ( $assertCountRun == 0) {
+            // 这个测试方法没有断言，标记危险
+            TestResult::getInstance()->addWarning($test,new Warning("没有断言!"));
+        }
+
     }
 
 }

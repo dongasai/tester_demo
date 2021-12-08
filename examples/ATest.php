@@ -103,20 +103,20 @@ class ATest extends \mtf\Framework\TestCase
         self::assertMatchesRegularExpression('/fo/', 'fooooo');
         $this->assertStringMatchesFormat('%i', '-10');
         $this->assertStringMatchesFormat('张三%d', '张三10');
-        $this->assertStringMatchesFormatFile('/var/www/html/examples/FormatFile.txt','张三11');
-        $this->assertStringFileMatchesFormat('张三%d','/var/www/html/examples/FormatTxt.txt');
+        $this->assertStringMatchesFormatFile('/var/www/html/examples/FormatFile.txt', '张三11');
+        $this->assertStringFileMatchesFormat('张三%d', '/var/www/html/examples/FormatTxt.txt');
         // 全相等
-        $this->assertSame(10,10);
+        $this->assertSame(10, 10);
         // 后缀相同
-        self::assertStringEndsWith("888","15888");
+        self::assertStringEndsWith("888", "15888");
         // 文件内容
         $this->assertStringEqualsFile('/var/www/html/examples/FormatTxt.txt', '张三10');
         // 前缀相同
-        self::assertStringStartsWith('1111',"11115555");
+        self::assertStringStartsWith('1111', "11115555");
         // assertXmlFileEqualsXmlFile
-        self::assertXmlFileEqualsXmlFile('/var/www/html/examples/xml1.xml','/var/www/html/examples/xml11.xml');
+        self::assertXmlFileEqualsXmlFile('/var/www/html/examples/xml1.xml', '/var/www/html/examples/xml11.xml');
 
-        self::assertXmlStringEqualsXmlFile('/var/www/html/examples/xml2.xml','<?xml version="1.0" encoding="UTF-8"?>
+        self::assertXmlStringEqualsXmlFile('/var/www/html/examples/xml2.xml', '<?xml version="1.0" encoding="UTF-8"?>
 <mtftest
         debug="true"
         bootstrap="examples/boot.php"
@@ -132,7 +132,7 @@ class ATest extends \mtf\Framework\TestCase
 >
     <dir>examples</dir>
 </mtftest>
-','<?xml version="1.0" encoding="UTF-8"?>
+', '<?xml version="1.0" encoding="UTF-8"?>
 <mtftest
         debug="true"
         bootstrap="examples/boot.php"
@@ -144,6 +144,17 @@ class ATest extends \mtf\Framework\TestCase
         foreach (range(1, 4) as $item) {
             self::assertLessThanOrEqual(5, $item);
         }
+
+    }
+
+
+    public function testB()
+    {
+
+    }
+
+    public function testC()
+    {
 
     }
 

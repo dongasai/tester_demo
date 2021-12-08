@@ -64,15 +64,11 @@ class CaseRuner
                 $this->testFunc[] = $func;
             }
         }
-        $assertCountBefore = TestCase::$AssertCount;
+
         foreach ($this->testFunc as $func) {
             $this->handle->run($func);
         }
-        $assertCountRun = TestCase::$AssertCount - $assertCountBefore;
-        if ( $assertCountRun == 0) {
-            // 这个测试方法没有断言，标记危险
 
-        }
 
         // 后置方法
         // tearDownAfterClass
