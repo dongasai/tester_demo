@@ -97,7 +97,7 @@ abstract class TestCase
         $assertCountRun = TestCase::$AssertCount - $assertCountBefore;
         if ( $assertCountRun == 0) {
             // 这个测试方法没有断言，标记危险
-            TestResult::getInstance()->addWarning($test,new Warning("没有断言!"));
+            TestResult::getInstance()->addRisky($test,new Warning("没有断言!"));
         }
 
     }

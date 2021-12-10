@@ -9,8 +9,8 @@
 namespace mtf\Framework\Result;
 
 /**
- *
- * @author Administrator
+ * 断言出错
+ * @author dongasai
  */
 interface InterfaceResult
 {

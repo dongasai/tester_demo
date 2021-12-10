@@ -9,8 +9,7 @@
 namespace mtf\Framework\Result;
 
 /**
- * Description of AssertionFailedError
- *
+ * 断言出错
  * @author dongasai
  */
 class AssertionFailedError implements InterfaceResult

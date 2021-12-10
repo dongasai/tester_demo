@@ -72,7 +72,7 @@ class TestResult implements InterfaceTestResult
      * @param $t
      * @return void
      */
-    public function addEisky(Test $test, $t)
+    public function addRisky(Test $test, $t)
     {
 
     }

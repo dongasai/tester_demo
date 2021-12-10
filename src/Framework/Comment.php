@@ -182,7 +182,7 @@ class Comment
     }
 
     /**
-     * 获取数据依赖
+     * 获取数据供给器
      *
      * @return string
      */
